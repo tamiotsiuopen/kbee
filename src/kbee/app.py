@@ -4,6 +4,8 @@ Provides an interactive chat interface where users can ask questions
 and receive AI-generated answers based on the knowledge base.
 """
 
+import re
+
 import chainlit as cl
 
 from kbee.query import get_query_engine, query_knowledge_base
@@ -17,9 +19,7 @@ async def on_chat_start() -> None:
         cl.user_session.set("query_engine", query_engine)
         await cl.Message(
             content=(
-                "👋 Hi! I'm **KBee**, your AI customer service assistant.\n\n"
-                "I can answer questions based on our knowledge base. "
-                "Just type your question and I'll do my best to help!"
+                "Hi，我是 KBee。請問我可以怎麼協助您呢。"
             ),
         ).send()
     except FileNotFoundError:
@@ -45,6 +45,11 @@ async def on_message(message: cl.Message) -> None:
     # Show thinking indicator.
     msg = cl.Message(content="")
     await msg.send()
+
+    if _is_greeting(message.content):
+        msg.content = "您好，我在這裡。請告訴我您想詢問的問題，我會盡快協助您。"
+        await msg.update()
+        return
 
     # Query the knowledge base.
     response = await query_knowledge_base(query_engine, message.content)
@@ -83,3 +88,27 @@ def _format_sources(response) -> str:
         )
 
     return "\n".join(lines)
+
+
+def _is_greeting(text: str) -> bool:
+    """Return True if the message is a simple greeting."""
+    compact = re.sub(r"\s+", "", text.strip().lower())
+    greeting_set = {
+        "hi",
+        "hikbee",
+        "hello",
+        "hellokbee",
+        "hey",
+        "heykbee",
+        "嗨",
+        "嗨kbee",
+        "哈囉",
+        "哈囉kbee",
+        "你好",
+        "你好kbee",
+        "您好",
+        "您好kbee",
+        "安安",
+        "安安kbee",
+    }
+    return compact in greeting_set
