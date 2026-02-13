@@ -4,7 +4,7 @@ Loads the ChromaDB index and provides a query interface
 that retrieves relevant documents and generates responses.
 """
 
-import chromadb
+# chromadb imported lazily inside helper
 from llama_index.core import VectorStoreIndex
 from llama_index.core.base.response.schema import RESPONSE_TYPE
 from llama_index.core.query_engine import BaseQueryEngine
@@ -42,7 +42,9 @@ def get_query_engine() -> BaseQueryEngine:
             "Run ingestion first: python -m kbee.ingest"
         )
 
-    # Connect to existing ChromaDB collection.
+    # Lazy import and connect to ChromaDB collection.
+    import chromadb
+
     client = chromadb.PersistentClient(path=str(settings.chroma_path))
     collection = client.get_or_create_collection(name=settings.collection_name)
     vector_store = ChromaVectorStore(chroma_collection=collection)
