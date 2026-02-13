@@ -73,6 +73,6 @@ uv run ruff format src/
 
 - **RAG Framework:** LlamaIndex
 - **Vector Store:** ChromaDB (local)
-- **LLM:** OpenAI GPT-4o-mini
+- **LLM:** OpenAI GPT-5-mini
 - **Embedding:** OpenAI text-embedding-3-small
 - **Chat UI:** Chainlit
