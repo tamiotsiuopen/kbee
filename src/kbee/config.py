@@ -33,7 +33,7 @@ class Settings(BaseSettings):
     openai_api_key: str = ""
     chroma_persist_dir: str = "./storage"
     data_dir: str = "./data"
-    llm_model: str = "gpt-4o-mini"
+    llm_model: str = "gpt-5-mini"
     embedding_model: str = "text-embedding-3-small"
     chunk_size: int = 1024
     chunk_overlap: int = 200
