@@ -28,3 +28,7 @@ data/*
 .DS_Store
 chroma_data/
 storage/
+
+data/bitext_faq_zh/
+# evaluation artifacts
+eval/*.partial.json
