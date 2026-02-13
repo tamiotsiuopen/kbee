@@ -9,7 +9,6 @@ import logging
 import sys
 from pathlib import Path
 
-from typing import Optional
 from llama_index.core import SimpleDirectoryReader, StorageContext, VectorStoreIndex
 from llama_index.core.node_parser import SentenceSplitter
 from llama_index.embeddings.openai import OpenAIEmbedding
@@ -43,36 +42,12 @@ def get_chroma_client(clear: bool = False):
     collection = client.get_or_create_collection(name=settings.collection_name)
     return client, collection
 
+
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s",
 )
 logger = logging.getLogger(__name__)
-
-
-def _get_chroma_collection(
-    clear: bool = False,
-) -> tuple[chromadb.PersistentClient, chromadb.Collection]:
-    """Create or retrieve the ChromaDB collection.
-
-    Args:
-        clear: If True, delete and recreate the collection.
-
-    Returns:
-        A tuple of (client, collection).
-    """
-    settings.chroma_path.mkdir(parents=True, exist_ok=True)
-    client = chromadb.PersistentClient(path=str(settings.chroma_path))
-
-    if clear:
-        try:
-            client.delete_collection(settings.collection_name)
-            logger.info("Cleared existing collection: %s", settings.collection_name)
-        except ValueError:
-            pass  # Collection doesn't exist yet.
-
-    collection = client.get_or_create_collection(name=settings.collection_name)
-    return client, collection
 
 
 def ingest_documents(data_dir: str | None = None, clear: bool = False) -> int:
