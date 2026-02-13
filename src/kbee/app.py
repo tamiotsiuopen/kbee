@@ -46,9 +46,7 @@ async def on_chat_start() -> None:
         query_engine = get_query_engine()
         cl.user_session.set("query_engine", query_engine)
         await cl.Message(
-            content=(
-                "Hi，我是 KBee。請問我可以怎麼協助您呢。"
-            ),
+            content=("Hi，我是 KBee。請問我可以怎麼協助您呢。"),
         ).send()
     except FileNotFoundError:
         await cl.Message(

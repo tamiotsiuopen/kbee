@@ -1,0 +1,5 @@
+分類：付款方式
+
+問：支援哪些付款方式？
+
+答：我們支援信用卡（Visa、MasterCard、JCB）、銀行轉帳、超商付款、LINE Pay、Apple Pay 和 Google Pay。部分促銷活動可能限定特定付款方式。

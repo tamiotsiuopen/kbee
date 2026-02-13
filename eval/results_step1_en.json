@@ -1,0 +1,142 @@
+[
+  {
+    "question": "How do I request a refund?",
+    "answer": "You can request a refund within 30 days of purchase. Go to \"My Orders\", select the order, and click \"Request Refund\". Refunds are processed within 5–7 business days to your original payment method.",
+    "ground_truth": "You can request a refund within 30 days of purchase by going to 'My Orders', selecting the order, and clicking 'Request Refund'. Refunds are processed within 5-7 business days.",
+    "contexts": [
+      "Refund Policy\n\nQ: How do I request a refund?\nA: You can request a refund within 30 days of purchase. Go to \"My Orders\", select the order, and click \"Request Refund\". Refunds are processed within 5-7 business days to your original payment method.\n\nQ: Can I get a refund after 30 days?\nA: After the 30-day window, refunds are only available for defective products. Please contact customer support with photos of the defect.\n\nQ: How long does it take to receive my refund?\nA: Standard refunds take 5-7 business days. Credit card refunds may take an additional 1-2 billing cycles to appear on your statement.",
+      "Return Policy\n\nQ: How do I return a product?\nA: Initiate a return within 14 days of delivery through \"My Orders\". Pack the item in its original packaging and attach the return label. Drop it off at any designated courier point.\n\nQ: What items cannot be returned?\nA: Personalized items, perishable goods, digital products, and items marked as \"final sale\" cannot be returned. Opened software and hygiene products are also non-returnable.\n\nQ: Who pays for return shipping?\nA: If the return is due to a defect or our error, we cover shipping costs. For other returns, the customer is responsible for return shipping fees.",
+      "Account Management\n\nQ: How do I create an account?\nA: Click \"Sign Up\" in the top right corner. Enter your email, phone number, and password. You can also sign up with Google, Facebook, or Apple ID.\n\nQ: How do I reset my password?\nA: Go to Settings > Security > Change Password. Enter your current password and new password. We recommend using at least 8 characters with uppercase, lowercase, and numbers.\n\nQ: How do I delete my account?\nA: Contact customer support to request account deletion. Please note that this action is irreversible and all order history will be lost."
+    ],
+    "source_keywords": [
+      "refund",
+      "30 days"
+    ]
+  },
+  {
+    "question": "What is the shipping time for express delivery?",
+    "answer": "Express shipping takes 1-2 business days.",
+    "ground_truth": "Express shipping takes 1-2 business days.",
+    "contexts": [
+      "Shipping Information\n\nQ: How long does shipping take?\nA: Standard shipping takes 3-5 business days. Express shipping takes 1-2 business days. Remote areas may require an additional 2-3 business days.\n\nQ: Do you ship internationally?\nA: Yes, we ship to Japan, Korea, Hong Kong, Singapore, and the United States. International shipping takes 7-14 business days. Some items may be restricted due to regulations.\n\nQ: How much does shipping cost?\nA: Standard shipping is free for orders over $50. Express shipping costs $9.99. International shipping rates vary by destination and weight.",
+      "Return Policy\n\nQ: How do I return a product?\nA: Initiate a return within 14 days of delivery through \"My Orders\". Pack the item in its original packaging and attach the return label. Drop it off at any designated courier point.\n\nQ: What items cannot be returned?\nA: Personalized items, perishable goods, digital products, and items marked as \"final sale\" cannot be returned. Opened software and hygiene products are also non-returnable.\n\nQ: Who pays for return shipping?\nA: If the return is due to a defect or our error, we cover shipping costs. For other returns, the customer is responsible for return shipping fees.",
+      "Refund Policy\n\nQ: How do I request a refund?\nA: You can request a refund within 30 days of purchase. Go to \"My Orders\", select the order, and click \"Request Refund\". Refunds are processed within 5-7 business days to your original payment method.\n\nQ: Can I get a refund after 30 days?\nA: After the 30-day window, refunds are only available for defective products. Please contact customer support with photos of the defect.\n\nQ: How long does it take to receive my refund?\nA: Standard refunds take 5-7 business days. Credit card refunds may take an additional 1-2 billing cycles to appear on your statement."
+    ],
+    "source_keywords": [
+      "express",
+      "1-2 business days"
+    ]
+  },
+  {
+    "question": "How can I sign up for an account?",
+    "answer": "Click \"Sign Up\" in the top right corner. Enter your email, phone number, and password. Alternatively, you can sign up using Google, Facebook, or Apple ID.",
+    "ground_truth": "Click 'Sign Up' in the top right corner, enter your email, phone number, and password. You can also sign up with Google, Facebook, or Apple ID.",
+    "contexts": [
+      "Account Management\n\nQ: How do I create an account?\nA: Click \"Sign Up\" in the top right corner. Enter your email, phone number, and password. You can also sign up with Google, Facebook, or Apple ID.\n\nQ: How do I reset my password?\nA: Go to Settings > Security > Change Password. Enter your current password and new password. We recommend using at least 8 characters with uppercase, lowercase, and numbers.\n\nQ: How do I delete my account?\nA: Contact customer support to request account deletion. Please note that this action is irreversible and all order history will be lost.",
+      "VIP Membership Program\n\nQ: How do I become a VIP member?\nA: When your annual spending reaches $300, you will automatically be upgraded to VIP status. VIP members enjoy 10% discount, free shipping, and priority customer support.\n\nQ: What are the benefits of VIP membership?\nA: VIP members get: 10% discount on all orders, free standard shipping, priority customer support, double loyalty points, and early access to sales events.\n\nQ: Do VIP benefits expire?\nA: VIP status is valid for one year from the date of qualification. You need to maintain $300 annual spending to keep your VIP status.",
+      "Refund Policy\n\nQ: How do I request a refund?\nA: You can request a refund within 30 days of purchase. Go to \"My Orders\", select the order, and click \"Request Refund\". Refunds are processed within 5-7 business days to your original payment method.\n\nQ: Can I get a refund after 30 days?\nA: After the 30-day window, refunds are only available for defective products. Please contact customer support with photos of the defect.\n\nQ: How long does it take to receive my refund?\nA: Standard refunds take 5-7 business days. Credit card refunds may take an additional 1-2 billing cycles to appear on your statement."
+    ],
+    "source_keywords": [
+      "sign up",
+      "email"
+    ]
+  },
+  {
+    "question": "What are VIP member benefits?",
+    "answer": "VIP members receive:\n- 10% discount on all orders\n- Free standard shipping\n- Priority customer support\n- Double loyalty points\n- Early access to sales events",
+    "ground_truth": "VIP members get 10% discount on all orders, free standard shipping, priority customer support, double loyalty points, and early access to sales events.",
+    "contexts": [
+      "VIP Membership Program\n\nQ: How do I become a VIP member?\nA: When your annual spending reaches $300, you will automatically be upgraded to VIP status. VIP members enjoy 10% discount, free shipping, and priority customer support.\n\nQ: What are the benefits of VIP membership?\nA: VIP members get: 10% discount on all orders, free standard shipping, priority customer support, double loyalty points, and early access to sales events.\n\nQ: Do VIP benefits expire?\nA: VIP status is valid for one year from the date of qualification. You need to maintain $300 annual spending to keep your VIP status.",
+      "Account Management\n\nQ: How do I create an account?\nA: Click \"Sign Up\" in the top right corner. Enter your email, phone number, and password. You can also sign up with Google, Facebook, or Apple ID.\n\nQ: How do I reset my password?\nA: Go to Settings > Security > Change Password. Enter your current password and new password. We recommend using at least 8 characters with uppercase, lowercase, and numbers.\n\nQ: How do I delete my account?\nA: Contact customer support to request account deletion. Please note that this action is irreversible and all order history will be lost.",
+      "Refund Policy\n\nQ: How do I request a refund?\nA: You can request a refund within 30 days of purchase. Go to \"My Orders\", select the order, and click \"Request Refund\". Refunds are processed within 5-7 business days to your original payment method.\n\nQ: Can I get a refund after 30 days?\nA: After the 30-day window, refunds are only available for defective products. Please contact customer support with photos of the defect.\n\nQ: How long does it take to receive my refund?\nA: Standard refunds take 5-7 business days. Credit card refunds may take an additional 1-2 billing cycles to appear on your statement."
+    ],
+    "source_keywords": [
+      "10%",
+      "free shipping",
+      "priority"
+    ]
+  },
+  {
+    "question": "Can I return opened software?",
+    "answer": "No — opened software is non-returnable.",
+    "ground_truth": "No, opened software and hygiene products are non-returnable.",
+    "contexts": [
+      "Return Policy\n\nQ: How do I return a product?\nA: Initiate a return within 14 days of delivery through \"My Orders\". Pack the item in its original packaging and attach the return label. Drop it off at any designated courier point.\n\nQ: What items cannot be returned?\nA: Personalized items, perishable goods, digital products, and items marked as \"final sale\" cannot be returned. Opened software and hygiene products are also non-returnable.\n\nQ: Who pays for return shipping?\nA: If the return is due to a defect or our error, we cover shipping costs. For other returns, the customer is responsible for return shipping fees.",
+      "Refund Policy\n\nQ: How do I request a refund?\nA: You can request a refund within 30 days of purchase. Go to \"My Orders\", select the order, and click \"Request Refund\". Refunds are processed within 5-7 business days to your original payment method.\n\nQ: Can I get a refund after 30 days?\nA: After the 30-day window, refunds are only available for defective products. Please contact customer support with photos of the defect.\n\nQ: How long does it take to receive my refund?\nA: Standard refunds take 5-7 business days. Credit card refunds may take an additional 1-2 billing cycles to appear on your statement.",
+      "Shipping Information\n\nQ: How long does shipping take?\nA: Standard shipping takes 3-5 business days. Express shipping takes 1-2 business days. Remote areas may require an additional 2-3 business days.\n\nQ: Do you ship internationally?\nA: Yes, we ship to Japan, Korea, Hong Kong, Singapore, and the United States. International shipping takes 7-14 business days. Some items may be restricted due to regulations.\n\nQ: How much does shipping cost?\nA: Standard shipping is free for orders over $50. Express shipping costs $9.99. International shipping rates vary by destination and weight."
+    ],
+    "source_keywords": [
+      "non-returnable",
+      "software"
+    ]
+  },
+  {
+    "question": "Do you ship to Europe?",
+    "answer": "No — international shipping is available to Japan, Korea, Hong Kong, Singapore, and the United States. International shipments take 7–14 business days and some items may be restricted.",
+    "ground_truth": "The knowledge base does not mention shipping to Europe. Currently supported international destinations are Japan, Korea, Hong Kong, Singapore, and the United States.",
+    "contexts": [
+      "Shipping Information\n\nQ: How long does shipping take?\nA: Standard shipping takes 3-5 business days. Express shipping takes 1-2 business days. Remote areas may require an additional 2-3 business days.\n\nQ: Do you ship internationally?\nA: Yes, we ship to Japan, Korea, Hong Kong, Singapore, and the United States. International shipping takes 7-14 business days. Some items may be restricted due to regulations.\n\nQ: How much does shipping cost?\nA: Standard shipping is free for orders over $50. Express shipping costs $9.99. International shipping rates vary by destination and weight.",
+      "Return Policy\n\nQ: How do I return a product?\nA: Initiate a return within 14 days of delivery through \"My Orders\". Pack the item in its original packaging and attach the return label. Drop it off at any designated courier point.\n\nQ: What items cannot be returned?\nA: Personalized items, perishable goods, digital products, and items marked as \"final sale\" cannot be returned. Opened software and hygiene products are also non-returnable.\n\nQ: Who pays for return shipping?\nA: If the return is due to a defect or our error, we cover shipping costs. For other returns, the customer is responsible for return shipping fees.",
+      "Refund Policy\n\nQ: How do I request a refund?\nA: You can request a refund within 30 days of purchase. Go to \"My Orders\", select the order, and click \"Request Refund\". Refunds are processed within 5-7 business days to your original payment method.\n\nQ: Can I get a refund after 30 days?\nA: After the 30-day window, refunds are only available for defective products. Please contact customer support with photos of the defect.\n\nQ: How long does it take to receive my refund?\nA: Standard refunds take 5-7 business days. Credit card refunds may take an additional 1-2 billing cycles to appear on your statement."
+    ],
+    "source_keywords": [
+      "Japan",
+      "Korea",
+      "United States"
+    ]
+  },
+  {
+    "question": "How much annual spending is needed for VIP?",
+    "answer": "You need $300 in annual spending to become a VIP.",
+    "ground_truth": "Annual spending of $300 is needed to qualify for VIP membership, and this amount must be maintained annually to keep VIP status.",
+    "contexts": [
+      "VIP Membership Program\n\nQ: How do I become a VIP member?\nA: When your annual spending reaches $300, you will automatically be upgraded to VIP status. VIP members enjoy 10% discount, free shipping, and priority customer support.\n\nQ: What are the benefits of VIP membership?\nA: VIP members get: 10% discount on all orders, free standard shipping, priority customer support, double loyalty points, and early access to sales events.\n\nQ: Do VIP benefits expire?\nA: VIP status is valid for one year from the date of qualification. You need to maintain $300 annual spending to keep your VIP status.",
+      "Shipping Information\n\nQ: How long does shipping take?\nA: Standard shipping takes 3-5 business days. Express shipping takes 1-2 business days. Remote areas may require an additional 2-3 business days.\n\nQ: Do you ship internationally?\nA: Yes, we ship to Japan, Korea, Hong Kong, Singapore, and the United States. International shipping takes 7-14 business days. Some items may be restricted due to regulations.\n\nQ: How much does shipping cost?\nA: Standard shipping is free for orders over $50. Express shipping costs $9.99. International shipping rates vary by destination and weight.",
+      "Account Management\n\nQ: How do I create an account?\nA: Click \"Sign Up\" in the top right corner. Enter your email, phone number, and password. You can also sign up with Google, Facebook, or Apple ID.\n\nQ: How do I reset my password?\nA: Go to Settings > Security > Change Password. Enter your current password and new password. We recommend using at least 8 characters with uppercase, lowercase, and numbers.\n\nQ: How do I delete my account?\nA: Contact customer support to request account deletion. Please note that this action is irreversible and all order history will be lost."
+    ],
+    "source_keywords": [
+      "$300",
+      "annual"
+    ]
+  },
+  {
+    "question": "Who pays return shipping for defective items?",
+    "answer": "We cover the return shipping costs for defective items.",
+    "ground_truth": "For defective items or errors on the company's part, the company covers return shipping costs.",
+    "contexts": [
+      "Return Policy\n\nQ: How do I return a product?\nA: Initiate a return within 14 days of delivery through \"My Orders\". Pack the item in its original packaging and attach the return label. Drop it off at any designated courier point.\n\nQ: What items cannot be returned?\nA: Personalized items, perishable goods, digital products, and items marked as \"final sale\" cannot be returned. Opened software and hygiene products are also non-returnable.\n\nQ: Who pays for return shipping?\nA: If the return is due to a defect or our error, we cover shipping costs. For other returns, the customer is responsible for return shipping fees.",
+      "Refund Policy\n\nQ: How do I request a refund?\nA: You can request a refund within 30 days of purchase. Go to \"My Orders\", select the order, and click \"Request Refund\". Refunds are processed within 5-7 business days to your original payment method.\n\nQ: Can I get a refund after 30 days?\nA: After the 30-day window, refunds are only available for defective products. Please contact customer support with photos of the defect.\n\nQ: How long does it take to receive my refund?\nA: Standard refunds take 5-7 business days. Credit card refunds may take an additional 1-2 billing cycles to appear on your statement.",
+      "Shipping Information\n\nQ: How long does shipping take?\nA: Standard shipping takes 3-5 business days. Express shipping takes 1-2 business days. Remote areas may require an additional 2-3 business days.\n\nQ: Do you ship internationally?\nA: Yes, we ship to Japan, Korea, Hong Kong, Singapore, and the United States. International shipping takes 7-14 business days. Some items may be restricted due to regulations.\n\nQ: How much does shipping cost?\nA: Standard shipping is free for orders over $50. Express shipping costs $9.99. International shipping rates vary by destination and weight."
+    ],
+    "source_keywords": [
+      "defect",
+      "cover",
+      "shipping"
+    ]
+  },
+  {
+    "question": "Can I get a refund after 60 days?",
+    "answer": "Refunds after 60 days are only available for defective products. Please contact customer support and provide photos of the defect to request a refund.",
+    "ground_truth": "After the 30-day window, refunds are only available for defective products.",
+    "contexts": [
+      "Refund Policy\n\nQ: How do I request a refund?\nA: You can request a refund within 30 days of purchase. Go to \"My Orders\", select the order, and click \"Request Refund\". Refunds are processed within 5-7 business days to your original payment method.\n\nQ: Can I get a refund after 30 days?\nA: After the 30-day window, refunds are only available for defective products. Please contact customer support with photos of the defect.\n\nQ: How long does it take to receive my refund?\nA: Standard refunds take 5-7 business days. Credit card refunds may take an additional 1-2 billing cycles to appear on your statement.",
+      "Return Policy\n\nQ: How do I return a product?\nA: Initiate a return within 14 days of delivery through \"My Orders\". Pack the item in its original packaging and attach the return label. Drop it off at any designated courier point.\n\nQ: What items cannot be returned?\nA: Personalized items, perishable goods, digital products, and items marked as \"final sale\" cannot be returned. Opened software and hygiene products are also non-returnable.\n\nQ: Who pays for return shipping?\nA: If the return is due to a defect or our error, we cover shipping costs. For other returns, the customer is responsible for return shipping fees.",
+      "VIP Membership Program\n\nQ: How do I become a VIP member?\nA: When your annual spending reaches $300, you will automatically be upgraded to VIP status. VIP members enjoy 10% discount, free shipping, and priority customer support.\n\nQ: What are the benefits of VIP membership?\nA: VIP members get: 10% discount on all orders, free standard shipping, priority customer support, double loyalty points, and early access to sales events.\n\nQ: Do VIP benefits expire?\nA: VIP status is valid for one year from the date of qualification. You need to maintain $300 annual spending to keep your VIP status."
+    ],
+    "source_keywords": [
+      "30-day",
+      "defective"
+    ]
+  },
+  {
+    "question": "What is your company's stock price?",
+    "answer": "This information is not available in the knowledge base.",
+    "ground_truth": "This information is not available in the knowledge base.",
+    "contexts": [
+      "VIP Membership Program\n\nQ: How do I become a VIP member?\nA: When your annual spending reaches $300, you will automatically be upgraded to VIP status. VIP members enjoy 10% discount, free shipping, and priority customer support.\n\nQ: What are the benefits of VIP membership?\nA: VIP members get: 10% discount on all orders, free standard shipping, priority customer support, double loyalty points, and early access to sales events.\n\nQ: Do VIP benefits expire?\nA: VIP status is valid for one year from the date of qualification. You need to maintain $300 annual spending to keep your VIP status.",
+      "Shipping Information\n\nQ: How long does shipping take?\nA: Standard shipping takes 3-5 business days. Express shipping takes 1-2 business days. Remote areas may require an additional 2-3 business days.\n\nQ: Do you ship internationally?\nA: Yes, we ship to Japan, Korea, Hong Kong, Singapore, and the United States. International shipping takes 7-14 business days. Some items may be restricted due to regulations.\n\nQ: How much does shipping cost?\nA: Standard shipping is free for orders over $50. Express shipping costs $9.99. International shipping rates vary by destination and weight.",
+      "Return Policy\n\nQ: How do I return a product?\nA: Initiate a return within 14 days of delivery through \"My Orders\". Pack the item in its original packaging and attach the return label. Drop it off at any designated courier point.\n\nQ: What items cannot be returned?\nA: Personalized items, perishable goods, digital products, and items marked as \"final sale\" cannot be returned. Opened software and hygiene products are also non-returnable.\n\nQ: Who pays for return shipping?\nA: If the return is due to a defect or our error, we cover shipping costs. For other returns, the customer is responsible for return shipping fees."
+    ],
+    "source_keywords": []
+  }
+]
