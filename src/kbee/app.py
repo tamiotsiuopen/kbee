@@ -4,16 +4,44 @@ Provides an interactive chat interface where users can ask questions
 and receive AI-generated answers based on the knowledge base.
 """
 
+import asyncio
 import re
+from concurrent.futures import ThreadPoolExecutor
 
 import chainlit as cl
 
+from kbee.ingest import get_chroma_client
 from kbee.query import get_query_engine, query_knowledge_base
+
+
+async def _background_prewarm() -> bool:
+    """Background task to pre-initialize Chroma client to reduce
+    first-request latency.
+    """
+    loop = asyncio.get_event_loop()
+
+    def init() -> bool:
+        try:
+            get_chroma_client()
+            return True
+        except Exception:
+            return False
+
+    with ThreadPoolExecutor(max_workers=1) as ex:
+        ok = await loop.run_in_executor(ex, init)
+
+    return ok
 
 
 @cl.on_chat_start
 async def on_chat_start() -> None:
-    """Initialize the query engine and send a welcome message."""
+    """Initialize the query engine and send a welcome message.
+
+    Start background prewarm of Chroma client but don't block the UI.
+    """
+    # Trigger background pre-warm but don't block startup.
+    asyncio.create_task(_background_prewarm())
+
     try:
         query_engine = get_query_engine()
         cl.user_session.set("query_engine", query_engine)

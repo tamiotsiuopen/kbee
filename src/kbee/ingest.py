@@ -9,7 +9,6 @@ import logging
 import sys
 from pathlib import Path
 
-import chromadb
 from llama_index.core import SimpleDirectoryReader, StorageContext, VectorStoreIndex
 from llama_index.core.node_parser import SentenceSplitter
 from llama_index.embeddings.openai import OpenAIEmbedding
@@ -17,36 +16,38 @@ from llama_index.vector_stores.chroma import ChromaVectorStore
 
 from kbee.config import settings
 
+# Lazy-loaded chroma client holder
+_CHROMA_CLIENT = None
+
+
+def get_chroma_client(clear: bool = False):
+    """Lazily create and return a Chroma persistent client and collection.
+
+    Returns a tuple (client, collection).
+    """
+    global _CHROMA_CLIENT
+    # Import here to avoid top-level dependency during module import
+    import chromadb
+
+    if _CHROMA_CLIENT is None:
+        settings.chroma_path.mkdir(parents=True, exist_ok=True)
+        _CHROMA_CLIENT = chromadb.PersistentClient(path=str(settings.chroma_path))
+
+    client = _CHROMA_CLIENT
+    if clear:
+        try:
+            client.delete_collection(settings.collection_name)
+        except Exception:
+            pass
+    collection = client.get_or_create_collection(name=settings.collection_name)
+    return client, collection
+
+
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s",
 )
 logger = logging.getLogger(__name__)
-
-
-def _get_chroma_collection(
-    clear: bool = False,
-) -> tuple[chromadb.PersistentClient, chromadb.Collection]:
-    """Create or retrieve the ChromaDB collection.
-
-    Args:
-        clear: If True, delete and recreate the collection.
-
-    Returns:
-        A tuple of (client, collection).
-    """
-    settings.chroma_path.mkdir(parents=True, exist_ok=True)
-    client = chromadb.PersistentClient(path=str(settings.chroma_path))
-
-    if clear:
-        try:
-            client.delete_collection(settings.collection_name)
-            logger.info("Cleared existing collection: %s", settings.collection_name)
-        except ValueError:
-            pass  # Collection doesn't exist yet.
-
-    collection = client.get_or_create_collection(name=settings.collection_name)
-    return client, collection
 
 
 def ingest_documents(data_dir: str | None = None, clear: bool = False) -> int:
@@ -75,7 +76,12 @@ def ingest_documents(data_dir: str | None = None, clear: bool = False) -> int:
         recursive=True,
         required_exts=[".pdf", ".txt", ".docx", ".md", ".html"],
     )
-    documents = reader.load_data()
+
+    try:
+        documents = reader.load_data()
+    except Exception as e:
+        logger.error("Failed to read documents: %s", e)
+        raise
 
     if not documents:
         raise ValueError(f"No documents found in: {dir_path}")
@@ -89,7 +95,8 @@ def ingest_documents(data_dir: str | None = None, clear: bool = False) -> int:
     )
 
     # Set up ChromaDB vector store.
-    _, collection = _get_chroma_collection(clear=clear)
+    # Lazy get client/collection
+    _, collection = get_chroma_client(clear=clear)
     vector_store = ChromaVectorStore(chroma_collection=collection)
     storage_context = StorageContext.from_defaults(vector_store=vector_store)
 
