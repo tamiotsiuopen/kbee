@@ -1,0 +1,10 @@
+Account Management
+
+Q: How do I create an account?
+A: Click "Sign Up" in the top right corner. Enter your email, phone number, and password. You can also sign up with Google, Facebook, or Apple ID.
+
+Q: How do I reset my password?
+A: Go to Settings > Security > Change Password. Enter your current password and new password. We recommend using at least 8 characters with uppercase, lowercase, and numbers.
+
+Q: How do I delete my account?
+A: Contact customer support to request account deletion. Please note that this action is irreversible and all order history will be lost.
