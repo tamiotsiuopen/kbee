@@ -1,0 +1,272 @@
+[
+  {
+    "intent": "cancel_order",
+    "q_en": "question about cancelling order {{Order Number}}",
+    "q_zh": "取消訂單 {{Order Number}} 的問題"
+  },
+  {
+    "intent": "cancel_order",
+    "q_en": "I don't know what to do to cancel order {{Order Number}}",
+    "q_zh": "我不知道該怎麼取消訂單 {{Order Number}}。"
+  },
+  {
+    "intent": "change_order",
+    "q_en": "I try to change several bloody items of order {{Order Number}}",
+    "q_zh": "我想更改訂單 {{Order Number}} 中的幾個項目。"
+  },
+  {
+    "intent": "change_order",
+    "q_en": "edit ordr {{Order Number}}",
+    "q_zh": "編輯訂單 {{Order Number}}"
+  },
+  {
+    "intent": "change_shipping_address",
+    "q_en": "give me information about a delivery address modification",
+    "q_zh": "請提供有關修改送貨地址的資訊。"
+  },
+  {
+    "intent": "change_shipping_address",
+    "q_en": "I entered a wrong shipping address, can I correct it?",
+    "q_zh": "我輸入了錯誤的運送地址，可以更正嗎？"
+  },
+  {
+    "intent": "check_cancellation_fee",
+    "q_en": "I can't ifnd the bloody termination charge, I need help",
+    "q_zh": "我找不到終止費用，請幫忙。"
+  },
+  {
+    "intent": "check_cancellation_fee",
+    "q_en": "help me see the damn early exit fee",
+    "q_zh": "幫我看看提前退訂費用。"
+  },
+  {
+    "intent": "check_invoice",
+    "q_en": "show me invoice{{Invoice Number}}",
+    "q_zh": "顯示發票{{Invoice Number}}"
+  },
+  {
+    "intent": "check_invoice",
+    "q_en": "check invoices from {{Person Name}}",
+    "q_zh": "查詢{{Person Name}}的發票"
+  },
+  {
+    "intent": "check_payment_methods",
+    "q_en": "I try to list your available payment methoids",
+    "q_zh": "我想查詢你們可用的付款方式。"
+  },
+  {
+    "intent": "check_payment_methods",
+    "q_en": "i want help to see ur available payment methods",
+    "q_zh": "我想查看你們可用的付款方式。"
+  },
+  {
+    "intent": "check_refund_policy",
+    "q_en": "i do not know hoow i could check ur reimbursement policy",
+    "q_zh": "我不知道如何查看你們的退款政策。"
+  },
+  {
+    "intent": "check_refund_policy",
+    "q_en": "i want help checking in what cases can i ask for a refund",
+    "q_zh": "我想了解在什麼情況下可以要求退款。"
+  },
+  {
+    "intent": "complaint",
+    "q_en": "help me to file a claim",
+    "q_zh": "請幫我提出索賠。"
+  },
+  {
+    "intent": "complaint",
+    "q_en": "i dont know what i have to do to lodge a consumer complaint",
+    "q_zh": "我不知道該怎麼做才能提出消費者投訴。"
+  },
+  {
+    "intent": "contact_customer_service",
+    "q_en": "I want help to speak to customer support",
+    "q_zh": "我想聯繫客服尋求幫助。"
+  },
+  {
+    "intent": "contact_customer_service",
+    "q_en": "I want help to see what hours I can call customer assistance",
+    "q_zh": "我想知道可以什麼時候打電話給客服。"
+  },
+  {
+    "intent": "contact_human_agent",
+    "q_en": "I do not understand you, help me chatting with someone",
+    "q_zh": "我不明白你，幫我聯繫人員。"
+  },
+  {
+    "intent": "contact_human_agent",
+    "q_en": "assistance talking to an assistant",
+    "q_zh": "需要協助與客服人員聯繫。"
+  },
+  {
+    "intent": "create_account",
+    "q_en": "new {{Account Type}} acount for wife",
+    "q_zh": "為妻子創建新的 {{Account Type}} 帳戶"
+  },
+  {
+    "intent": "create_account",
+    "q_en": "open {{Account Type}} account for wife",
+    "q_zh": "為妻子開設{{帳戶類型}}帳戶"
+  },
+  {
+    "intent": "delete_account",
+    "q_en": "closing  platinum account",
+    "q_zh": "關閉白金帳戶"
+  },
+  {
+    "intent": "delete_account",
+    "q_en": "i dont know how i could delpete the goddamn {{Account Type}} account",
+    "q_zh": "我不知道怎麼刪除這個該死的{{Account Type}}帳戶。"
+  },
+  {
+    "intent": "delivery_options",
+    "q_en": "could you help me check what delivery methods you offer?",
+    "q_zh": "請幫我查詢你們提供哪些配送方式？"
+  },
+  {
+    "intent": "delivery_options",
+    "q_en": "delieries to {{Delivery City}}",
+    "q_zh": "運送到{{Delivery City}}的選項"
+  },
+  {
+    "intent": "delivery_period",
+    "q_en": "need help seeing when my packageis going to arrive",
+    "q_zh": "我需要幫忙查看我的包裹什麼時候會到達。"
+  },
+  {
+    "intent": "delivery_period",
+    "q_en": "where to check when my order is going to arrive?",
+    "q_zh": "我可以在哪裡查看我的訂單何時會到達？"
+  },
+  {
+    "intent": "edit_account",
+    "q_en": "correcting data on {{Account Type}} account",
+    "q_zh": "修正{{帳戶類型}}帳戶上的資料"
+  },
+  {
+    "intent": "edit_account",
+    "q_en": "correcting information on {{Account Category}} account",
+    "q_zh": "更正{{帳戶類別}}帳戶上的資訊"
+  },
+  {
+    "intent": "get_invoice",
+    "q_en": "i dont know what i need to do to download my bill #85632",
+    "q_zh": "我不知道該怎麼做才能下載我的帳單 #85632。"
+  },
+  {
+    "intent": "get_invoice",
+    "q_en": "can you help me to download my invoice #37777?",
+    "q_zh": "請幫我下載我的發票 #37777。"
+  },
+  {
+    "intent": "get_refund",
+    "q_en": "how do I get a compensation of my money?",
+    "q_zh": "我該如何獲得退款？"
+  },
+  {
+    "intent": "get_refund",
+    "q_en": "how long until I get a compensation of money?",
+    "q_zh": "我多久能收到退款？"
+  },
+  {
+    "intent": "newsletter_subscription",
+    "q_en": "i try to unsubscribe to ur companu newsletter",
+    "q_zh": "我想取消訂閱你們公司的電子報。"
+  },
+  {
+    "intent": "newsletter_subscription",
+    "q_en": "I want assistance to receive the newsletter",
+    "q_zh": "我想要幫助訂閱電子報。"
+  },
+  {
+    "intent": "payment_issue",
+    "q_en": "i cant make a payment where can i notify of an error",
+    "q_zh": "我無法進行付款，該去哪裡通知錯誤？"
+  },
+  {
+    "intent": "payment_issue",
+    "q_en": "assistance to solve an issue with online payment",
+    "q_zh": "協助解決線上付款問題"
+  },
+  {
+    "intent": "place_order",
+    "q_en": "I have to order something, can I get some help?",
+    "q_zh": "我需要訂購一些東西，可以幫我嗎？"
+  },
+  {
+    "intent": "place_order",
+    "q_en": "wanna earn some of ur article",
+    "q_zh": "想要購買你們的文章。"
+  },
+  {
+    "intent": "recover_password",
+    "q_en": "can I reset the PIN of my user profile?",
+    "q_zh": "我可以重設我的用戶檔案的密碼嗎？"
+  },
+  {
+    "intent": "recover_password",
+    "q_en": "need assistance to recover my account pass",
+    "q_zh": "需要協助找回我的帳號密碼。"
+  },
+  {
+    "intent": "registration_problems",
+    "q_en": "I need support with my sign-up",
+    "q_zh": "我需要幫助註冊。"
+  },
+  {
+    "intent": "registration_problems",
+    "q_en": "help to notify of an error with bloody registrations",
+    "q_zh": "請幫忙通知有關血腥註冊的錯誤。"
+  },
+  {
+    "intent": "review",
+    "q_en": "uhave a method to leave an opinion about ur services",
+    "q_zh": "您有方法可以對您的服務留下意見嗎？"
+  },
+  {
+    "intent": "review",
+    "q_en": "need assistance to submit my feedback for ur services",
+    "q_zh": "需要協助提交我對你們服務的反饋。"
+  },
+  {
+    "intent": "set_up_shipping_address",
+    "q_en": "error setting the shipping address up",
+    "q_zh": "設置運送地址時出現錯誤"
+  },
+  {
+    "intent": "set_up_shipping_address",
+    "q_en": "I cannot enter the new delivery address",
+    "q_zh": "我無法輸入新的送貨地址。"
+  },
+  {
+    "intent": "switch_account",
+    "q_en": "switch user",
+    "q_zh": "切換帳戶"
+  },
+  {
+    "intent": "switch_account",
+    "q_en": "assistance using the {{Account Type}} profile",
+    "q_zh": "協助使用{{帳戶類型}}個人檔案"
+  },
+  {
+    "intent": "track_order",
+    "q_en": "needx help to check the ETA of purchase {{Order Number}}",
+    "q_zh": "需要幫忙查詢訂單 {{Order Number}} 的預計到達時間。"
+  },
+  {
+    "intent": "track_order",
+    "q_en": "help me see the ETA of the order {{Order Number}}",
+    "q_zh": "請幫我查看訂單 {{Order Number}} 的預計到達時間。"
+  },
+  {
+    "intent": "track_refund",
+    "q_en": "can I see if there is anything new on the reimbursement?",
+    "q_zh": "我可以查看報銷是否有任何新進展嗎？"
+  },
+  {
+    "intent": "track_refund",
+    "q_en": "I'm waiting for a restitution of {{Currency Symbol}}{{Refund Amount}}",
+    "q_zh": "我在等待{{Currency Symbol}}{{Refund Amount}}的退款。"
+  }
+]
