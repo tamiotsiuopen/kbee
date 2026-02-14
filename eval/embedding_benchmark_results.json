@@ -1,0 +1,38 @@
+[
+  {
+    "name": "A1: ST + BERTopic",
+    "ARI": 0.521,
+    "NMI": 0.819,
+    "V-Measure": 0.819,
+    "n_clusters": 74,
+    "outlier_ratio": 0.059,
+    "time_s": 9.8
+  },
+  {
+    "name": "A2: OpenAI + BERTopic",
+    "ARI": 0.6455,
+    "NMI": 0.8842,
+    "V-Measure": 0.8842,
+    "n_clusters": 30,
+    "outlier_ratio": 0.0105,
+    "time_s": 7.2
+  },
+  {
+    "name": "B1: OpenAI + HDBSCAN",
+    "ARI": 0.6057,
+    "NMI": 0.8808,
+    "V-Measure": 0.8808,
+    "n_clusters": 16,
+    "outlier_ratio": 0.328,
+    "time_s": 5.8
+  },
+  {
+    "name": "B2: OpenAI + KMeans(27)",
+    "ARI": 0.6894,
+    "NMI": 0.8677,
+    "V-Measure": 0.8677,
+    "n_clusters": 27,
+    "outlier_ratio": 0.0,
+    "time_s": 9.7
+  }
+]
