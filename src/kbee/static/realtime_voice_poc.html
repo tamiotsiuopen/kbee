@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KBee Realtime Voice POC</title>
+    <style>
+      body {
+        font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica,
+          Arial, sans-serif;
+        max-width: 860px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+        line-height: 1.5;
+      }
+      button {
+        margin-right: 0.5rem;
+        padding: 0.5rem 0.9rem;
+        cursor: pointer;
+      }
+      #log {
+        margin-top: 1rem;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 0.8rem;
+        height: 360px;
+        overflow-y: auto;
+        white-space: pre-wrap;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 13px;
+      }
+      .row {
+        margin: 0.4rem 0;
+      }
+      #status {
+        font-weight: 600;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>KBee Realtime Voice POC</h1>
+    <p>使用麥克風和 AI 客服對話，AI 可透過 RAG 查詢 KB。</p>
+    <div class="row">
+      <button id="startBtn">Start Session</button>
+      <button id="stopBtn" disabled>Stop Session</button>
+      <span id="status">Idle</span>
+    </div>
+    <div class="row">
+      <label for="voiceSelect">Voice:</label>
+      <select id="voiceSelect">
+        <option value="alloy">alloy</option>
+        <option value="verse" selected>verse</option>
+        <option value="sage">sage</option>
+      </select>
+    </div>
+    <audio id="remoteAudio" autoplay></audio>
+    <div id="log"></div>
+
+    <script>
+      const startBtn = document.getElementById("startBtn");
+      const stopBtn = document.getElementById("stopBtn");
+      const statusEl = document.getElementById("status");
+      const remoteAudio = document.getElementById("remoteAudio");
+      const voiceSelect = document.getElementById("voiceSelect");
+      const logEl = document.getElementById("log");
+
+      let pc = null;
+      let dc = null;
+      let localStream = null;
+
+      function log(message) {
+        const ts = new Date().toLocaleTimeString();
+        logEl.textContent += `[${ts}] ${message}\n`;
+        logEl.scrollTop = logEl.scrollHeight;
+      }
+
+      function setStatus(text) {
+        statusEl.textContent = text;
+      }
+
+      function safeJsonParse(value) {
+        if (typeof value !== "string") return value;
+        try {
+          return JSON.parse(value);
+        } catch {
+          return value;
+        }
+      }
+
+      async function callRag(query) {
+        const resp = await fetch("/api/rag", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ query }),
+        });
+        if (!resp.ok) {
+          throw new Error(`RAG request failed (${resp.status})`);
+        }
+        return await resp.json();
+      }
+
+      async function handleFunctionCall(name, callId, rawArguments) {
+        if (name !== "rag_query") {
+          log(`Ignore unsupported tool: ${name}`);
+          return;
+        }
+
+        const args = safeJsonParse(rawArguments);
+        const query = typeof args?.query === "string" ? args.query : "";
+        if (!query) {
+          log("Tool rag_query missing query argument");
+          return;
+        }
+
+        log(`Tool call rag_query: ${query}`);
+        const ragResult = await callRag(query);
+
+        dc.send(
+          JSON.stringify({
+            type: "conversation.item.create",
+            item: {
+              type: "function_call_output",
+              call_id: callId,
+              output: JSON.stringify(ragResult),
+            },
+          })
+        );
+
+        dc.send(
+          JSON.stringify({
+            type: "response.create",
+            response: {
+              modalities: ["audio", "text"],
+            },
+          })
+        );
+      }
+
+      function registerDataChannel(channel) {
+        dc = channel;
+        dc.onopen = () => {
+          log("Data channel open");
+
+          const instructions = [
+            "你是 KBee 客服語音助理。",
+            "預設使用繁體中文回覆；若使用者明確以英文提問，可使用英文回覆。",
+            "遇到知識庫問題時，請呼叫 rag_query 工具，不要自行編造答案。",
+            "回答簡潔、友善、準確。",
+          ].join(" ");
+
+          dc.send(
+            JSON.stringify({
+              type: "session.update",
+              session: {
+                instructions,
+                tool_choice: "auto",
+                tools: [
+                  {
+                    type: "function",
+                    name: "rag_query",
+                    description: "Query KBee knowledge base for factual customer-service answers.",
+                    parameters: {
+                      type: "object",
+                      properties: {
+                        query: {
+                          type: "string",
+                          description: "User question to search in KB.",
+                        },
+                      },
+                      required: ["query"],
+                    },
+                  },
+                ],
+              },
+            })
+          );
+
+          dc.send(
+            JSON.stringify({
+              type: "response.create",
+              response: {
+                modalities: ["audio", "text"],
+                instructions: "簡短自我介紹並請使用者開始提問。",
+              },
+            })
+          );
+        };
+
+        dc.onmessage = async (event) => {
+          const data = safeJsonParse(event.data);
+          if (!data || typeof data !== "object") return;
+
+          if (data.type === "error") {
+            log(`Realtime error: ${JSON.stringify(data.error || data)}`);
+            return;
+          }
+
+          if (data.type === "response.output_item.done") {
+            const item = data.item || {};
+            if (item.type === "function_call") {
+              await handleFunctionCall(item.name, item.call_id, item.arguments);
+              return;
+            }
+          }
+
+          if (data.type === "response.text.done") {
+            log(`AI(text): ${data.text}`);
+          }
+
+          if (data.type === "input_audio_buffer.speech_started") {
+            remoteAudio.pause();
+          }
+        };
+
+        dc.onerror = (err) => {
+          log(`Data channel error: ${err.message || err}`);
+        };
+
+        dc.onclose = () => {
+          log("Data channel closed");
+        };
+      }
+
+      async function startSession() {
+        startBtn.disabled = true;
+        stopBtn.disabled = false;
+        setStatus("Connecting...");
+
+        try {
+          const tokenResp = await fetch("/api/realtime-token", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ voice: voiceSelect.value }),
+          });
+
+          if (!tokenResp.ok) {
+            throw new Error(`Token API failed (${tokenResp.status})`);
+          }
+
+          const tokenData = await tokenResp.json();
+          const ephemeralKey = tokenData.client_secret?.value;
+          const model = tokenData.model;
+
+          if (!ephemeralKey) {
+            throw new Error("Missing ephemeral key from server response");
+          }
+
+          pc = new RTCPeerConnection();
+          pc.ontrack = (event) => {
+            remoteAudio.srcObject = event.streams[0];
+          };
+
+          localStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+          for (const track of localStream.getTracks()) {
+            pc.addTrack(track, localStream);
+          }
+
+          registerDataChannel(pc.createDataChannel("oai-events"));
+
+          const offer = await pc.createOffer();
+          await pc.setLocalDescription(offer);
+
+          const sdpResp = await fetch(`https://api.openai.com/v1/realtime?model=${encodeURIComponent(model)}`, {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${ephemeralKey}`,
+              "Content-Type": "application/sdp",
+            },
+            body: offer.sdp,
+          });
+
+          if (!sdpResp.ok) {
+            throw new Error(`SDP exchange failed (${sdpResp.status})`);
+          }
+
+          const answerSdp = await sdpResp.text();
+          await pc.setRemoteDescription({ type: "answer", sdp: answerSdp });
+
+          setStatus("Connected");
+          log("Realtime session started");
+        } catch (err) {
+          log(`Start failed: ${err.message || err}`);
+          setStatus("Error");
+          await stopSession();
+        }
+      }
+
+      async function stopSession() {
+        stopBtn.disabled = true;
+        startBtn.disabled = false;
+
+        if (dc) {
+          dc.close();
+          dc = null;
+        }
+
+        if (pc) {
+          pc.getSenders().forEach((s) => s.track && s.track.stop());
+          pc.close();
+          pc = null;
+        }
+
+        if (localStream) {
+          localStream.getTracks().forEach((t) => t.stop());
+          localStream = null;
+        }
+
+        setStatus("Idle");
+        log("Session stopped");
+      }
+
+      startBtn.addEventListener("click", startSession);
+      stopBtn.addEventListener("click", stopSession);
+    </script>
+  </body>
+</html>

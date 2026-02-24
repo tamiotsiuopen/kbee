@@ -31,6 +31,8 @@ class Settings(BaseSettings):
     )
 
     openai_api_key: str = ""
+    realtime_model: str = "gpt-4o-realtime-preview-2024-12-17"
+    base_url: str = "http://localhost:8787"
     chroma_persist_dir: str = "./storage"
     data_dir: str = "./data"
     llm_model: str = "gpt-5-mini"
