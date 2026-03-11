@@ -33,7 +33,7 @@ To clear existing data and re-ingest:
 uv run python -m kbee.ingest --clear
 ```
 
-### 5. Start the chat UI
+### 5. Start the chat UI (text)
 
 ```bash
 uv run chainlit run src/kbee/app.py
@@ -41,18 +41,31 @@ uv run chainlit run src/kbee/app.py
 
 Open http://localhost:8000 in your browser and start chatting!
 
+### 6. Start the Realtime Voice POC
+
+```bash
+uv run uvicorn kbee.realtime_server:app --host 0.0.0.0 --port 8787 --reload
+```
+
+Open http://localhost:8787 (must be `localhost`, not `127.0.0.1`) and click **Start Session** to begin a voice conversation. The AI queries the knowledge base via RAG in real time.
+
 ## Project Structure
 
 ```
 kbee/
 ├── src/kbee/
-│   ├── config.py    # Settings (env vars)
-│   ├── ingest.py    # Document ingestion pipeline
-│   ├── query.py     # RAG query engine
-│   └── app.py       # Chainlit chat UI
-├── data/            # Your knowledge base documents
-├── storage/         # ChromaDB persistent storage
-└── tests/           # Test suite
+│   ├── config.py              # Settings (env vars)
+│   ├── ingest.py              # Document ingestion pipeline
+│   ├── query.py               # RAG query engine (retriever + full LLM)
+│   ├── app.py                 # Chainlit chat UI
+│   └── realtime_server.py     # FastAPI realtime voice server
+│   └── static/                # Frontend assets
+├── data/                      # Knowledge base documents
+│   └── faq/
+│       ├── zh_tw/             # Chinese FAQ (e-commerce)
+│       └── en/                # English FAQ (iGaming)
+├── storage/                   # ChromaDB persistent storage
+└── tests/                     # Test suite
 ```
 
 ## Development
@@ -74,5 +87,7 @@ uv run ruff format src/
 - **RAG Framework:** LlamaIndex
 - **Vector Store:** ChromaDB (local)
 - **LLM:** OpenAI GPT-5-mini
+- **Realtime Voice:** OpenAI gpt-realtime (WebRTC)
 - **Embedding:** OpenAI text-embedding-3-small
 - **Chat UI:** Chainlit
+- **Voice Server:** FastAPI + uvicorn
