@@ -17,8 +17,8 @@ class TestConfig:
         s = Settings(openai_api_key="test-key")
         assert s.llm_model == "gpt-5-mini"
         assert s.embedding_model == "text-embedding-3-small"
-        assert s.chunk_size == 1024
-        assert s.chunk_overlap == 200
+        assert s.chunk_size == 512
+        assert s.chunk_overlap == 50
         assert s.similarity_top_k == 5
         assert s.collection_name == "kbee_docs"
 
