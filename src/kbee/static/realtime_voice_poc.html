@@ -48,8 +48,8 @@
     <div class="row">
       <label for="voiceSelect">Voice:</label>
       <select id="voiceSelect">
-        <option value="alloy">alloy</option>
-        <option value="verse" selected>verse</option>
+        <option value="alloy" selected>alloy</option>
+        <option value="verse">verse</option>
         <option value="sage">sage</option>
       </select>
     </div>
@@ -114,7 +114,20 @@
 
         log(`Tool call rag_query: ${query}`);
         const ragResult = await callRag(query);
-        log(`RAG result received (${ragResult.answer?.length || 0} chars)`);
+        const relevantChunks = (ragResult.chunks || []).filter(
+          (c) => c.score != null && c.score >= 0.30
+        );
+        log(`RAG: ${ragResult.chunks?.length || 0} chunks, ${relevantChunks.length} relevant`);
+
+        const NO_MATCH_MSG =
+          "NO_MATCH: Knowledge base has no relevant information. " +
+          "Chinese user: 不好意思我目前還不熟悉這類問題，請問需要幫您轉接專人協助嗎？ " +
+          "English user: Sorry, I'm not familiar with this topic. Would you like me to transfer you to a specialist?";
+
+        const output =
+          relevantChunks.length > 0
+            ? JSON.stringify({ chunks: relevantChunks })
+            : JSON.stringify({ answer: NO_MATCH_MSG });
 
         dc.send(
           JSON.stringify({
@@ -122,11 +135,10 @@
             item: {
               type: "function_call_output",
               call_id: callId,
-              output: JSON.stringify(ragResult),
+              output,
             },
           })
         );
-        log("Sent function_call_output to AI");
 
         dc.send(
           JSON.stringify({
@@ -136,7 +148,7 @@
             },
           })
         );
-        log("Sent response.create to AI");
+        log("Sent tool result to AI");
       }
 
       function registerDataChannel(channel) {
@@ -145,11 +157,17 @@
           log("Data channel open");
 
           const instructions = [
-            "LANGUAGE RULE: You MUST always speak and respond in Traditional Chinese (繁體中文). Never use Japanese or any other language.",
-            "你是 KBee 客服語音助理。你只能使用繁體中文回覆，絕對不可以使用日文或其他語言。",
-            "使用者提出任何問題時，你必須先呼叫 rag_query 工具查詢知識庫，不要自行編造答案。",
-            "只有當問題明顯與知識庫無關（如打招呼、閒聊）時，才可以直接回覆。",
-            "回答簡潔、友善、準確。",
+            "LANGUAGE RULE:",
+            "- Default language is English.",
+            "- If the user speaks Chinese (Mandarin/Traditional Chinese/Simplified Chinese), reply in Traditional Chinese (繁體中文).",
+            "- If the user speaks English, reply in English.",
+            "- If the user speaks any other language, reply in English with: 'Sorry, we currently only support English and Chinese.'",
+            "You are KBee, a customer service voice assistant.",
+            "Response rules:",
+            "1. Greetings (hello, hi, 你好), thanks (thank you, 謝謝), and farewells (bye, 再見) can be answered directly with a short reply. No tool call needed.",
+            "2. For ALL other questions, you MUST call the rag_query tool first. Never answer on your own.",
+            "3. If the tool result contains an 'answer' field (meaning no relevant data was found), say ONLY: in Chinese '不好意思我目前還不熟悉這類問題，請問需要幫您轉接專人協助嗎？' or in English 'Sorry, I'm not familiar with this topic. Would you like me to transfer you to a specialist?' Do NOT say anything else. Do NOT try to help or give suggestions.",
+            "Keep replies concise, friendly, and accurate.",
           ].join(" ");
 
           dc.send(
@@ -179,15 +197,18 @@
             })
           );
 
-          dc.send(
-            JSON.stringify({
-              type: "response.create",
-              response: {
-                modalities: ["audio", "text"],
-                instructions: "用繁體中文簡短自我介紹，告訴使用者你是 KBee 客服助理，請他們開始提問。",
-              },
-            })
-          );
+          // Wait for session.update to be processed before greeting
+          setTimeout(() => {
+            dc.send(
+              JSON.stringify({
+                type: "response.create",
+                response: {
+                  modalities: ["audio", "text"],
+                  instructions: "Briefly introduce yourself in English as KBee customer service assistant and ask the user to start asking questions.",
+                },
+              })
+            );
+          }, 500);
         };
 
         dc.onmessage = async (event) => {

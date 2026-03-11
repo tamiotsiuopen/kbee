@@ -12,7 +12,7 @@ from fastapi.responses import FileResponse
 from pydantic import BaseModel, Field
 
 from kbee.config import settings
-from kbee.query import get_query_engine, query_knowledge_base
+from kbee.query import retrieve_chunks
 
 REALTIME_SESSION_URL = "https://api.openai.com/v1/realtime/sessions"
 POC_HTML_PATH = Path(__file__).with_name("static") / "realtime_voice_poc.html"
@@ -21,7 +21,7 @@ POC_HTML_PATH = Path(__file__).with_name("static") / "realtime_voice_poc.html"
 class RealtimeTokenRequest(BaseModel):
     """Request body for minting a realtime ephemeral token."""
 
-    voice: str = Field(default="verse", min_length=1)
+    voice: str = Field(default="alloy", min_length=1)
 
 
 class RagRequest(BaseModel):
@@ -31,29 +31,10 @@ class RagRequest(BaseModel):
 
 
 class RagResponse(BaseModel):
-    """Response body for RAG query results."""
+    """Response body for RAG retrieval results."""
 
-    answer: str
-    sources: list[dict[str, Any]] = Field(default_factory=list)
+    chunks: list[dict[str, Any]] = Field(default_factory=list)
 
-
-def _extract_sources(response: Any) -> list[dict[str, Any]]:
-    """Extract source metadata from a LlamaIndex response object."""
-    source_nodes = getattr(response, "source_nodes", None)
-    if not source_nodes:
-        return []
-
-    results: list[dict[str, Any]] = []
-    for node in source_nodes:
-        metadata = getattr(node, "metadata", {}) or {}
-        results.append(
-            {
-                "file_name": metadata.get("file_name", "Unknown"),
-                "score": getattr(node, "score", None),
-                "text_preview": getattr(node, "text", "")[:160],
-            }
-        )
-    return results
 
 
 async def _create_realtime_session(
@@ -112,10 +93,14 @@ def create_app() -> FastAPI:
             raise HTTPException(status_code=500, detail="OPENAI_API_KEY is required")
 
         instructions = (
-            "LANGUAGE RULE: You MUST always speak in Traditional Chinese (繁體中文). "
-            "Never use Japanese or any other language. "
-            "你是 KBee 客服語音助理，你只能使用繁體中文回覆。"
-            "使用者提問時，必須先呼叫 rag_query 工具查詢知識庫。"
+            "Default language: English. "
+            "If user speaks Chinese, reply in Traditional Chinese. "
+            "If user speaks English, reply in English. "
+            "Any other language: reply in English 'Sorry, we currently only support English and Chinese.' "
+            "You are KBee customer service voice assistant. "
+            "Greetings/thanks/farewells: reply directly. "
+            "All other questions: must call rag_query tool first. "
+            "If tool result has 'answer' field, repeat it verbatim."
         )
         session = await _create_realtime_session(
             api_key=settings.openai_api_key,
@@ -128,12 +113,11 @@ def create_app() -> FastAPI:
     @app.post("/api/rag", response_model=RagResponse)
     async def rag(payload: RagRequest) -> RagResponse:
         try:
-            query_engine = get_query_engine()
+            chunks = await retrieve_chunks(payload.query)
         except FileNotFoundError as exc:
             raise HTTPException(status_code=400, detail=str(exc)) from exc
 
-        response = await query_knowledge_base(query_engine, payload.query)
-        return RagResponse(answer=str(response), sources=_extract_sources(response))
+        return RagResponse(chunks=chunks)
 
     return app
 
