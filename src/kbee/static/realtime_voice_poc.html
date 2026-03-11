@@ -114,6 +114,7 @@
 
         log(`Tool call rag_query: ${query}`);
         const ragResult = await callRag(query);
+        log(`RAG result received (${ragResult.answer?.length || 0} chars)`);
 
         dc.send(
           JSON.stringify({
@@ -125,6 +126,7 @@
             },
           })
         );
+        log("Sent function_call_output to AI");
 
         dc.send(
           JSON.stringify({
@@ -134,6 +136,7 @@
             },
           })
         );
+        log("Sent response.create to AI");
       }
 
       function registerDataChannel(channel) {
@@ -142,9 +145,10 @@
           log("Data channel open");
 
           const instructions = [
-            "你是 KBee 客服語音助理。",
-            "預設使用繁體中文回覆；若使用者明確以英文提問，可使用英文回覆。",
-            "遇到知識庫問題時，請呼叫 rag_query 工具，不要自行編造答案。",
+            "LANGUAGE RULE: You MUST always speak and respond in Traditional Chinese (繁體中文). Never use Japanese or any other language.",
+            "你是 KBee 客服語音助理。你只能使用繁體中文回覆，絕對不可以使用日文或其他語言。",
+            "使用者提出任何問題時，你必須先呼叫 rag_query 工具查詢知識庫，不要自行編造答案。",
+            "只有當問題明顯與知識庫無關（如打招呼、閒聊）時，才可以直接回覆。",
             "回答簡潔、友善、準確。",
           ].join(" ");
 
@@ -180,7 +184,7 @@
               type: "response.create",
               response: {
                 modalities: ["audio", "text"],
-                instructions: "簡短自我介紹並請使用者開始提問。",
+                instructions: "用繁體中文簡短自我介紹，告訴使用者你是 KBee 客服助理，請他們開始提問。",
               },
             })
           );
@@ -198,7 +202,11 @@
           if (data.type === "response.output_item.done") {
             const item = data.item || {};
             if (item.type === "function_call") {
-              await handleFunctionCall(item.name, item.call_id, item.arguments);
+              try {
+                await handleFunctionCall(item.name, item.call_id, item.arguments);
+              } catch (err) {
+                log(`Tool call error: ${err.message || err}`);
+              }
               return;
             }
           }
@@ -207,8 +215,8 @@
             log(`AI(text): ${data.text}`);
           }
 
-          if (data.type === "input_audio_buffer.speech_started") {
-            remoteAudio.pause();
+          if (data.type === "response.created") {
+            remoteAudio.play().catch(() => {});
           }
         };
 
@@ -250,6 +258,11 @@
             remoteAudio.srcObject = event.streams[0];
           };
 
+          if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+            throw new Error(
+              "getUserMedia not available. Please access this page via https:// or http://localhost:8787"
+            );
+          }
           localStream = await navigator.mediaDevices.getUserMedia({ audio: true });
           for (const track of localStream.getTracks()) {
             pc.addTrack(track, localStream);

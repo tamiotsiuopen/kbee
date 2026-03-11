@@ -112,9 +112,10 @@ def create_app() -> FastAPI:
             raise HTTPException(status_code=500, detail="OPENAI_API_KEY is required")
 
         instructions = (
-            "你是 KBee 客服語音助理。預設使用繁體中文回覆；"
-            "若使用者以英文提問，可用英文回覆。"
-            "知識查詢優先透過 rag_query 工具。"
+            "LANGUAGE RULE: You MUST always speak in Traditional Chinese (繁體中文). "
+            "Never use Japanese or any other language. "
+            "你是 KBee 客服語音助理，你只能使用繁體中文回覆。"
+            "使用者提問時，必須先呼叫 rag_query 工具查詢知識庫。"
         )
         session = await _create_realtime_session(
             api_key=settings.openai_api_key,

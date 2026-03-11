@@ -9,7 +9,8 @@ import logging
 import sys
 from pathlib import Path
 
-from llama_index.core import SimpleDirectoryReader, StorageContext, VectorStoreIndex
+from llama_index.core import SimpleDirectoryReader
+from llama_index.core.ingestion import IngestionPipeline
 from llama_index.core.node_parser import SentenceSplitter
 from llama_index.embeddings.openai import OpenAIEmbedding
 from llama_index.vector_stores.chroma import ChromaVectorStore
@@ -95,12 +96,10 @@ def ingest_documents(data_dir: str | None = None, clear: bool = False) -> int:
     )
 
     # Set up ChromaDB vector store.
-    # Lazy get client/collection
     _, collection = get_chroma_client(clear=clear)
     vector_store = ChromaVectorStore(chroma_collection=collection)
-    storage_context = StorageContext.from_defaults(vector_store=vector_store)
 
-    # Parse and index documents.
+    # Parse, embed, and store via IngestionPipeline.
     splitter = SentenceSplitter(
         chunk_size=settings.chunk_size,
         chunk_overlap=settings.chunk_overlap,
@@ -111,15 +110,13 @@ def ingest_documents(data_dir: str | None = None, clear: bool = False) -> int:
         settings.chunk_size,
         settings.chunk_overlap,
     )
-    index = VectorStoreIndex.from_documents(
-        documents,
-        storage_context=storage_context,
-        embed_model=embed_model,
-        transformations=[splitter],
-        show_progress=True,
+    pipeline = IngestionPipeline(
+        transformations=[splitter, embed_model],
+        vector_store=vector_store,
     )
+    nodes = pipeline.run(documents=documents, show_progress=True)
 
-    num_nodes = len(index.docstore.docs)
+    num_nodes = len(nodes)
     logger.info(
         "Ingested %d chunks into collection '%s'.",
         num_nodes,
