@@ -175,6 +175,12 @@
               type: "session.update",
               session: {
                 instructions,
+                turn_detection: {
+                  type: "server_vad",
+                  threshold: 0.5,
+                  prefix_padding_ms: 300,
+                  silence_duration_ms: 800,
+                },
                 tool_choice: "auto",
                 tools: [
                   {
@@ -208,7 +214,7 @@
                 },
               })
             );
-          }, 500);
+          }, 1000);
         };
 
         dc.onmessage = async (event) => {
