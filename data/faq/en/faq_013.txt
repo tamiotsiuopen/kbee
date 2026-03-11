@@ -1,0 +1,5 @@
+Category: Security
+
+Q: How do you protect my personal and financial data?
+
+A: We use industry-standard 256-bit SSL encryption for all data transmission. Your financial details are stored in PCI DSS Level 1 compliant systems and are never shared with third parties. We support two-factor authentication (2FA) via Google Authenticator or SMS for added login security. Our systems are monitored 24/7 for suspicious activity. We recommend enabling 2FA and using a strong, unique password for your account.

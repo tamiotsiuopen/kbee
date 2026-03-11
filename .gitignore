@@ -20,15 +20,11 @@ venv/
 storage/*
 !storage/.gitkeep
 
-# Data (uploaded files)
-data/*
-!data/.gitkeep
+# Data (keep FAQ tracked, ignore other uploads)
+data/bitext_faq_zh/
 
 # OS
 .DS_Store
 chroma_data/
-storage/
-
-data/bitext_faq_zh/
 # evaluation artifacts
 eval/*.partial.json

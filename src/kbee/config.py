@@ -35,7 +35,7 @@ class Settings(BaseSettings):
     base_url: str = "http://localhost:8787"
     chroma_persist_dir: str = "./storage"
     data_dir: str = "./data"
-    llm_model: str = "gpt-5-mini"
+    llm_model: str = "gpt-5.4"
     embedding_model: str = "text-embedding-3-small"
     chunk_size: int = 512
     chunk_overlap: int = 50
