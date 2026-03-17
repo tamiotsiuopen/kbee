@@ -1,0 +1,3 @@
+What is a Rollback?
+
+A Rollback occurs when the system mistakenly credits a customer’s account with an incorrect amount. Once the error is identified, the system reverses the transaction by deducting the mistakenly credited amount from the account. In your transaction history, a Rollback may appear as “Withdrawals Transfer OUT.”

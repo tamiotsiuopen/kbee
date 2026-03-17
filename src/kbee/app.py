@@ -46,7 +46,7 @@ async def on_chat_start() -> None:
         query_engine = get_query_engine()
         cl.user_session.set("query_engine", query_engine)
         await cl.Message(
-            content=("Hi，我是 KBee。請問我可以怎麼協助您呢。"),
+            content=("Hi,I'm KBee. How can I help you?"),
         ).send()
     except FileNotFoundError:
         await cl.Message(
@@ -73,7 +73,7 @@ async def on_message(message: cl.Message) -> None:
     await msg.send()
 
     if _is_greeting(message.content):
-        msg.content = "您好，我在這裡。請告訴我您想詢問的問題，我會盡快協助您。"
+        msg.content = "Hi, I'm here to help. What would you like to ask?"
         await msg.update()
         return
 
