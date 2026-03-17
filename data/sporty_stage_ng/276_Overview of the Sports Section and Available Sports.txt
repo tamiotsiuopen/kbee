@@ -1,0 +1,3 @@
+Overview of the Sports Section and Available Sports
+
+Sports Section Overview Description The Sports section allows users to select Pre-match games and place Live Bets on events that are currently happening. Available Sports Users can make selections from a wide range of sports, including: - Football - Basketball - Baseball - Tennis - Counter-Strike - League of Legends - Dota2 - Table Tennis - Badminton - Rugby - Cricket - Handball - Ice Hockey - Volleyball - Beach Volleyball - Darts - American Football - MMA - Futsal Note: The list above includes both traditional and eSports options.

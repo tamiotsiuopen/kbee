@@ -1,0 +1,3 @@
+Maximum Withdrawal Limit per Transaction
+
+Unable to Withdraw Beyond a Certain Limit Overview There is a maximum withdrawal amount per transaction. Withdrawal Limit Details - The maximum withdrawal amount per transaction is NGN 9,999,999.00. If you attempt to withdraw more than this limit in a single transaction, the withdrawal will not be processed.

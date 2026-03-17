@@ -1,0 +1,3 @@
+Understanding Withdrawal Limits and Requirements
+
+Withdrawal Limit Overview - You may be unable to withdraw funds if your Withdrawable Balance is low. - Withdrawable Balance is the amount available to withdraw from your SportyBet account. Withdrawal Requirements - Your all-time withdrawal amount must be less than twice your all-time Total Stake or Total Winnings amount in order to proceed with a withdrawal. How to Check Withdrawable Balance - You can view your Withdrawable Balance on your Withdrawal page. Note If you have tried the above solutions and are still unable to withdraw, the case should be handed off to a human agent.

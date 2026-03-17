@@ -1,0 +1,3 @@
+Withdrawal Limit After Adding or Re-adding a Bank Account
+
+ Overview A withdrawal limit of 50,000 NGN is applied for 24 hours when you add a bank account for the first time or delete and re-add a bank account. Reason for the Limit This limit is a security measure designed to protect your SportyBet account. Note If the above information does not resolve your issue, the case should be handed off to a human agent.

@@ -1,0 +1,3 @@
+What to Do If Your Withdrawal Fails
+
+My Withdrawal has Failed Possible Reasons for Withdrawal Failure - Request timeout - Failed at the payment gateway What Happens When a Withdrawal Fails - The withdrawn amount will be credited back to your SportyBet wallet instantly. Steps to Check Your Balance After a Failed Withdrawal 1. If you do not see the amount for the failed withdrawal in your balance, refresh the page. 2. Check your balance again. Note: If you have tried the above solutions and the issue persists, the case should be handed off to a human agent.

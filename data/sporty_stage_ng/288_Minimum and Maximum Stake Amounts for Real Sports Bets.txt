@@ -1,0 +1,3 @@
+Minimum and Maximum Stake Amounts for Real Sports Bets
+
+ Overview This section explains the minimum and maximum stake amounts allowed for placing a real sports bet. Stake Limits - Minimum stake amount: NGN 10 - Maximum stake amount: NGN 40,000,000

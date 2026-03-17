@@ -1,0 +1,3 @@
+What happens if my match is interrupted or not finished?
+
+My match has not ended Match Interruption and Bet Settlement - If a match is interrupted and not continued within 48 hours, all bets will be voided. - If the match is played again within 48 hours, Live and Pre-Match bets will be settled based on the final results.

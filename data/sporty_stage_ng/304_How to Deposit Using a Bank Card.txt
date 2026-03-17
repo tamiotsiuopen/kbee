@@ -1,0 +1,3 @@
+How to Deposit Using a Bank Card
+
+Pay using a Bank Card Overview This guide explains how to deposit funds into your SportyBet account using a bank card. Steps to Deposit Using a Bank Card 1. Go to My Account and select Deposit. 2. Enter the following card details: - ATM Card number - Expiry date - CVV (the three-digit code on the back of your card) - Amount you wish to deposit - Select the Top Up Now button 3. Complete verification by entering your PIN, Bank Token, or OTP (One Time Password) sent to your mobile phone, depending on the verification method used. 4. Once completed, your SportyBet account will be funded successfully.

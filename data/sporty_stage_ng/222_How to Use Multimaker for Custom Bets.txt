@@ -1,0 +1,3 @@
+How to Use Multimaker for Custom Bets
+
+Multimaker Feature Definition - Multimaker allows you to filter odds, selections, and leagues for customized bet placement. How to Use Multimaker: 1. Navigate to Multimaker via menu options > Others. 2. Add desired filters. 3. Skip selections to add new ones. 4. Lock selections to add them to the betslip.

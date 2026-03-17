@@ -1,0 +1,3 @@
+Maximum Withdrawal Amount Per Transaction and Troubleshooting Failed Withdrawals
+
+Maximum Withdrawal Amount Per Transaction Overview - The maximum withdrawal limit per transaction is NGN 9,999,999.00. - All withdrawals are free of charges. Possible Reasons for Transaction Failure - Insufficient bank account balance. - Exceeding the bank account's daily transfer limit. Note If the above solutions have been tried and did not work, the case should be handed off to a human agent.

@@ -1,0 +1,3 @@
+Possible Reasons for Failed Withdrawal Transactions
+
+Possible Reasons for Failed Transactions - Transactions may fail if the bank account's balance is insufficient. - Transactions may also fail if the daily transfer limit is exceeded

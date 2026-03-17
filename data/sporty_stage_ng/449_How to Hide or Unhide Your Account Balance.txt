@@ -1,0 +1,3 @@
+How to Hide or Unhide Your Account Balance
+
+How to Hide and Unhide Your Balance Overview This guide explains how to hide and unhide your account balance from view in your account dashboard. How to Hide Your Balance 1. Log in to your account. 2. Click on your account balance located in the top-right corner of the page. 3. Tap the eye icon or switch the toggle to hide your balance. How to Unhide Your Balance 1. Click on your account balance in the top-right corner. 2. Tap the eye icon or toggle the switch again to reveal your balance. Note: Your current account balance will appear immediately after unhiding.

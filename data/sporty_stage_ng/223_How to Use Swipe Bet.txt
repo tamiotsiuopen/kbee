@@ -1,0 +1,3 @@
+How to Use Swipe Bet
+
+Swipe Bet Feature Definition - Swipe Bet allows you to filter odds, selections, and leagues for bet placement. : - Select Swipe Bet from menu options > Other. - Add filters as needed. - Swipe left to discard a selection; swipe right to add to betslip.

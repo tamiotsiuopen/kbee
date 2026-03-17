@@ -1,0 +1,3 @@
+How to Use the My Pins Feature for Saving Favorite Odds
+
+My Pins Feature Overview Definition The My Pins feature allows users to save up to 30 odds as personal favorites using a long-press gesture. This helps streamline the betting process by making it easy to quickly add favorites to the Betslip. How to Use My Pins - To pin odds: Long-press on the desired odd to save it as a favorite. - Pinned selections will appear under the My Pins tab in the Betslip section for swift access. How to Remove Pinned Odds 1. Open the Betslip. 2. Tap on the My Pins tab to view your saved selections. 3. Long-press on any pinned odd to unpin it. Availability - The My Pins feature is currently available on the mobile website. - App support for Android and iOS is coming soon.

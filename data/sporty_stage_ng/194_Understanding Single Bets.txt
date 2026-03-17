@@ -1,0 +1,3 @@
+Understanding Single Bets
+
+What is a Single Bet? Definition of a Single Bet A single betslip is a ticket that includes markets, odds, and stakes from a single event or game. How a Single Bet Works - The stake you place is applied to each selection individually. - The total stake is calculated as the product of the number of selections and the input stake amount.

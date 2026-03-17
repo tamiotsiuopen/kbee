@@ -1,0 +1,3 @@
+How to View Your Deposit and Withdrawal History
+
+View Your Withdrawal and Deposit History Overview This section explains how to view your withdrawal and deposit transaction history on your account. Procedure 1. Log in to your account. 2. Click on your Account's Balance located in the top-right corner of the screen. 3. Click on 'Transactions'. 4. Select the desired transaction category from the drop-down menu. Available categories include: - Deposits - Withdrawals - Bets - Winnings - Shop - Refund 5. Select the desired date range and apply the filter to view your transaction history. Note You can view your deposit and withdrawal transaction history for the past 6 months.

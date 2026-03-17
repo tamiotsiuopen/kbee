@@ -1,0 +1,3 @@
+What is the reason of facing a Captcha while trying to withdraw
+
+Captcha when withdrawing Please note that we have a CAPTCHA facility on both WAP and WEB platforms, which may appear during the withdrawal process to ensure secure transactions.

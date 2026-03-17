@@ -1,0 +1,3 @@
+How Jackpot Rush Works
+
+Jackpot Rush Overview Jackpot Rush is a feature where a random selection of one prediction per match is automatically chosen with a fixed stake of NGN 100. Adding Predictions - Additional predictions can be added to the random selection. - Each additional combination will increase the cost of entry by NGN 100.

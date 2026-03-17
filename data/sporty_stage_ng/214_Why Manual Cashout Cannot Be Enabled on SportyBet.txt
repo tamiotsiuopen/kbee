@@ -1,0 +1,3 @@
+Why Manual Cashout Cannot Be Enabled on SportyBet
+
+Manual Opening of Cashout on SportyBet Overview SportyBet cannot manually open or enable the cashout feature for any bet. Cashout Availability Factors - Cashout availability depends on several factors, including: - Suspension of odds for the selected events - Unavailability of specific markets - Restrictions placed on certain events or markets Note If the above information does not resolve the issue, the case should be handed off to a human agent.

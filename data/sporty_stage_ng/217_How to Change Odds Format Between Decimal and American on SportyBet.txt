@@ -1,0 +1,3 @@
+How to Change Odds Format Between Decimal and American on SportyBet
+
+How to Change Decimal Odds to American Odds Overview SportyBet allows users to choose between American and Decimal odds formats to match their preferences. Changing Odds Format on SportyBet On the Website 1. Tap the settings icon located near the SportyBet logo. 2. Select your preferred odds format (Decimal or American). On the Mobile Site or App 1. Log in to your SportyBet account. 2. Click the ME icon. 3. Go to Settings. 4. Under Preferences, choose between Decimal and American formats. Availability - Odds format switching is currently available on the mobile website and Android app. - This feature is coming soon to iOS.

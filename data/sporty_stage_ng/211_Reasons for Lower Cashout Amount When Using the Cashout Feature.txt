@@ -1,0 +1,3 @@
+Reasons for Lower Cashout Amount When Using the Cashout Feature
+
+Why Cashout Amount May Be Lower When Using the New Cashout Feature Overview Your cashout amount may be lower if one or more matches in your betslip are suspended. Reason for Lower Cashout Amount - When a match in your betslip is suspended, the system recalculates the cashout offer to reflect the updated status of those events. - A 'Suspension Time offer' tag will appear below the Cashout button to indicate this adjustment. Options for Users - You can choose to wait until the markets are live again. - When the markets become live, a higher cashout amount may become available. Note If the above solutions have been tried and did not work, the case should be handed off to a human agent.

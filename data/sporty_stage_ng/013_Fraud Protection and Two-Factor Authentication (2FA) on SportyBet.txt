@@ -1,0 +1,3 @@
+Fraud Protection and Two-Factor Authentication (2FA) on SportyBet
+
+Fraud Protection and Withdrawals to a New Account - Adding a new bank account for withdrawals requires 2FA (Two-Factor Authentication). - You must confirm the addition using the Fraud Protection OTP sent to your registered mobile number. Warning: Never share your OTP with anyone. SportyBet and its employees will never ask for your OTP. Use OTPs only on the official SportyBet platform. 2 Factor Authentication (2FA) - Enable 2FA to add extra security to your account. - Email 2FA protects your account by requiring a verification code when logging in from an unrecognized device.

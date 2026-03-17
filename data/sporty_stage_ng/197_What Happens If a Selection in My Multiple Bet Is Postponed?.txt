@@ -1,0 +1,3 @@
+What Happens If a Selection in My Multiple Bet Is Postponed?
+
+Bets with Multiple Selections and Postponed Events Overview If you place a bet with multiple selections and one of the selections is postponed, the following rules apply. Void Matches - When a match in your bet is postponed and set as void, it will be considered as having an odd of 1.00. Payout of Remaining Selections - The remaining selections on your ticket will be settled as usual. - If the other selections are winning, your payout will be calculated based on those selections, with the voided match not affecting the outcome except by having an odd of 1.00. Note If you have tried the above steps and still have questions about why your bet was marked as void, the case should be handed off to a human agent.

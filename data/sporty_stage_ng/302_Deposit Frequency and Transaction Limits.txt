@@ -1,0 +1,3 @@
+Deposit Frequency and Transaction Limits
+
+How Frequently You Can Make Deposits Deposit Frequency - There is no limit to the number of deposit transactions you can make. Deposit Amount Limits - Maximum limit per transaction: NGN 9,999,999.00 - Minimum limit per transaction: NGN 100.00 Possible Reasons for Deposit Failure - Insufficient balance in your bank account - Daily transfer limit set by your bank Note: If you have tried the above solutions and are still unable to deposit, the case should be handed off to a human agent.
