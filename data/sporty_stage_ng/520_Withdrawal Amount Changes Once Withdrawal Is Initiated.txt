@@ -1,0 +1,3 @@
+Withdrawal Amount Changes Once Withdrawal Is Initiated
+
+Once a withdrawal request has been successfully initiated, the withdrawal amount cannot be modified, cancelled, or refunded manually. However, if the withdrawal transaction fails due to any reason (such as technical issues, payment provider failure, or banking errors), the withdrawn amount will be automatically credited back to the user’s SportyBet account.

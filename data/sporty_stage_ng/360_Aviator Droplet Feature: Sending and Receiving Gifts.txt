@@ -1,0 +1,3 @@
+Aviator Droplet Feature: Sending and Receiving Gifts
+
+Droplet Feature - The Droplet feature is represented by a raindrop icon in the in-game chat menu. - This feature allows users to send free gifts to other active players. - To receive a gift, active players must claim it in the chat. - Note: The gift amount will be deducted from the sender's account.

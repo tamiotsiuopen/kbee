@@ -1,0 +1,3 @@
+Troubleshooting Document Upload Issues
+
+Unable to Upload Documents Overview If you are unable to upload your documents, the document upload option under transaction history may need to be enabled. Supported File Formats - JPG - PNG - PDF Note If you have tried the above solutions and are still unable to upload your documents, the case should be handed off to a human agent.

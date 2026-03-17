@@ -1,0 +1,3 @@
+Why is there no search bar on the desktop version?
+
+Currently, the desktop version does not have a search bar. This feature is still under development, and it will be available in the future. In the meantime, you can use the search bar on our mobile app or mobile (WAP) site to find what you need.

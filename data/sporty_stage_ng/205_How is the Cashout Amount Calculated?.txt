@@ -1,0 +1,3 @@
+How is the Cashout Amount Calculated?
+
+How much will I win if I Cashout? Overview The amount you receive when you use the Cashout feature depends on the current likelihood of your bet winning. Details - If your bet is more likely to win, the Cashout amount offered will be higher. - If your bet is less likely to win, the Cashout amount will be lower.

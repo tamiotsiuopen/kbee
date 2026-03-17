@@ -1,0 +1,3 @@
+How to Use Multiple Booking Codes
+
+Booking Codes and Multiple Codes Using Multiple Booking Codes - Booking Codes are unique codes for betslips that can be shared with others. - To use multiple booking codes on one betslip, use the Load Code option. - Maximum selections for Single and Multiple Betslips is 50. Steps to Use Load Code: 1. Select Load Code from the menu options after clicking Other. 2. Enter the Booking Code in the field. 3. Click Load to add the selections to your betslip. 4. Clear the code, enter another booking code, and click Load to add more selections.

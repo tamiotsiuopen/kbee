@@ -1,0 +1,3 @@
+What to Do If Your Withdrawal Is Taking Too Long
+
+Withdrawal is Taking Too Long Overview Most withdrawals are processed and reflected in your bank account within 10 minutes. However, for some banks, the processing time can take up to a maximum of 24 hours. Troubleshooting Steps - If your withdrawal has been in pending status for less than 24 hours, please wait as it may still be processing. - If your withdrawal has been in pending status for more than 24 hours, and the above solutions have been tried and did not work, the case should be handed off to a human agent.

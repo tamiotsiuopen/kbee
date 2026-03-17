@@ -1,0 +1,3 @@
+What does 'other' in the Market betting selection mean?
+
+In betting markets, the “Other” selection typically represents outcomes which are not individually listed in the options. Any other outcome than the one listed would be counted as 'others'.

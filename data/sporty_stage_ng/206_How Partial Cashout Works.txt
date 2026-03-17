@@ -1,0 +1,3 @@
+How Partial Cashout Works
+
+Partial Cashout Feature Overview - Partial Cashout allows you to cash out part of your bet and leave part of the original stake untouched. - Partial Cashout is available when an unsettled bet is a Single or a Multiple with one combination. - For Single Bets, you can use Partial Cashout up to 10 times. - For Multiple Bets, you can use Partial Cashout up to 5 times.

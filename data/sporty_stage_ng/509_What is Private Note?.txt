@@ -1,0 +1,3 @@
+What is Private Note?
+
+A new "Add Private Note" feature is now available when placing a bet. After placing your bet, the "Bet Successful" screen will appear—here, you can click on “Add Private Note” to write a personal note for your bet. The note will be displayed below the betslip on your Bet History page. You can edit the note later from the betslip in your Bet History. Please note: You can only add a private note immediately after placing the bet—once you leave the Bet Successful screen, this option is no longer available. This feature is currently available on Android and Mobile Browser platforms.

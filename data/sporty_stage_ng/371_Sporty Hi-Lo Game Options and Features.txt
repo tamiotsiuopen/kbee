@@ -1,0 +1,3 @@
+Sporty Hi-Lo Game Options and Features
+
+Game Options and Features - After launching Sporty Hi-Lo, you can choose: - Start: Begin the game. - How to Play: View instructions and learn more about the game. - Exit: Leave the Sporty Hi-Lo game. - Your Sporty Account balance is displayed in the top right corner of the screen. - You can mute or unmute the game sound from the same screen.

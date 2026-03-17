@@ -1,0 +1,3 @@
+Transaction History and Rollbacks on SportyBet Nigeria
+
+Transaction History and Rollbacks - If incorrect bet results are provided and later corrected through a Rollback, a notification will be sent. Bets will be re-settled according to the correct final results. - The balance of your account may become negative after a Rollback if winnings were spent or withdrawn before the Rollback. - For more information, refer to your account’s Transaction History area.

@@ -1,0 +1,3 @@
+How to Use Verify Bet
+
+Verify Bet Feature Purpose - Used to confirm the authenticity of Sporty Tickets appearing online. - A Verify Code appears at the bottom of every settled ticket marked as Won. Steps to Verify a Bet: 1. Copy the verify bet code from the winning bet. 2. Go to your SportyBet account. 3. From the Home page, click More at the top right. 4. Scroll to Others and select Verify Bet. 5. Enter the copied code and click Verify. Winning ticket details will appear. If nothing appears, it is not a valid winning ticket.

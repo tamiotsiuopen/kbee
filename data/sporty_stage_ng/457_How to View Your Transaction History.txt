@@ -1,0 +1,3 @@
+How to View Your Transaction History
+
+View My Transactions Overview This section explains how to view your transaction history in your account. Steps to View Transaction History 1. Log in to your account. 2. Click on your Account's Balance located at the top-right corner. 3. Click on Transactions. 4. Select the desired transaction category from the drop-down menu. Available categories include Deposits, Withdrawals, Bets, Winnings, and Refunds.

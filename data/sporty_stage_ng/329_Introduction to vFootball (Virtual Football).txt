@@ -1,0 +1,3 @@
+Introduction to vFootball (Virtual Football)
+
+Virtual Football (vFootball) Definition - vFootball is a virtual football game, computer-generated to simulate real matches. Game Duration - Total length: 30 minutes (virtual) - Halves: 15 minutes each - Break: 1 minute between halves - Note: Actual runtime is much shorter than virtual time. Betting Features - Supports minimum/maximum stakes and potential wins - Market options: Match Winner, Over/Under Goals, Correct Score, etc.

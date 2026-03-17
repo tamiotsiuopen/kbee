@@ -1,0 +1,3 @@
+Minimum Deposit Amount Per Transaction
+
+Maximum and Minimum Deposit Amounts Per Transaction Minimum Deposit Amount - The minimum deposit amount per transaction is NGN 100.00

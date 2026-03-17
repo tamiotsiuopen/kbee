@@ -1,0 +1,3 @@
+Minimum Cashout Value
+
+ The minimum Cashout amount is NGN 0.1.

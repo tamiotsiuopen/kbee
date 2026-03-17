@@ -1,0 +1,3 @@
+What Happens to Bets When an Event Is Postponed or Canceled?
+
+What happens to my bet if the event gets postponed or canceled? Overview - If an event is postponed or the results are unverifiable, the bet is considered a Void Bet (nil or invalid). - A Void Bet is settled with odds of 1.00. - Other selections on a winning ticket will be paid out as usual if one selection is voided. Note If you have tried the above solutions and still have questions about why your bet was marked as Void, the case should be handed off to a human agent.

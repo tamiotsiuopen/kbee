@@ -1,0 +1,3 @@
+Incorrect amount deposited / Incorrect amount entered
+
+It seems you have deposited an incorrect amount. Please note that deposits made with an incorrect amount would eventually failed and reversed to the originating payment account. We kindly advise you to contact your financial institution for reversal of the debited amount.

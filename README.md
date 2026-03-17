@@ -22,7 +22,7 @@ cp .env.example .env
 Sample FAQ data is included in `data/faq/` (English iGaming + Chinese e-commerce). To ingest:
 
 ```bash
-uv run python -m kbee.ingest --dir data/ --clear
+uv run python -m kbee.ingest --dir data/sporty_stage_ng --clear
 ```
 
 You can also add your own files (PDF, TXT, DOCX, MD, HTML) to `data/` before ingesting.
@@ -33,7 +33,7 @@ You can also add your own files (PDF, TXT, DOCX, MD, HTML) to `data/` before ing
 uv run uvicorn kbee.realtime_server:app --host 0.0.0.0 --port 8787 --reload
 ```
 
-Open http://localhost:8787 (must be `localhost`, not `127.0.0.1`) and click **Start Session**.
+Open [http://localhost:8787](http://localhost:8787) (must be `localhost`, not `127.0.0.1`) and click **Start Session**.
 
 ### 5. Start the Text Chat UI (optional)
 
@@ -41,7 +41,7 @@ Open http://localhost:8787 (must be `localhost`, not `127.0.0.1`) and click **St
 uv run chainlit run src/kbee/app.py
 ```
 
-Open http://localhost:8000 in your browser.
+Open [http://localhost:8000](http://localhost:8000) in your browser.
 
 ## Features
 
@@ -94,3 +94,4 @@ uv run ruff format src/
 - **Embedding:** OpenAI text-embedding-3-small
 - **Text Chat UI:** Chainlit
 - **Voice Server:** FastAPI + uvicorn
+
