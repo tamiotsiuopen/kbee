@@ -62,7 +62,7 @@
       /* -- Hero section --------------------------------------------------- */
       .hero {
         max-width: 720px;
-        margin: 2.5rem auto 0;
+        margin: 2.5rem auto 1.5rem;
         text-align: center;
         padding: 0 1.5rem;
       }
@@ -84,7 +84,7 @@
         align-items: center;
         justify-content: center;
         gap: 12px;
-        margin-bottom: 2rem;
+        margin-bottom: 1rem;
       }
       .btn {
         height: 44px;
@@ -166,6 +166,11 @@
         gap: 1.25rem;
         align-items: start;
       }
+      .left-col {
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+      }
 
       /* -- Cards ---------------------------------------------------------- */
       .card {
@@ -183,19 +188,74 @@
         letter-spacing: 0.08em;
       }
 
+      /* -- Conversation panel --------------------------------------------- */
+      #conversation {
+        padding: 12px 20px 16px;
+        min-height: 400px;
+        max-height: 400px;
+        overflow-y: auto;
+      }
+      #conversation:empty::before {
+        content: "AI responses will appear here during the conversation.";
+        color: #bdc1c6;
+        font-style: italic;
+        font-size: 13px;
+      }
+      .msg {
+        padding: 10px 14px;
+        border-radius: 12px;
+        margin-bottom: 8px;
+        font-size: 14px;
+        line-height: 1.55;
+        max-width: 90%;
+        animation: fadeIn 0.2s ease;
+      }
+      .msg-ai {
+        background: #e8f0fe;
+        color: #1a3563;
+        border-bottom-left-radius: 4px;
+      }
+      .msg-user {
+        background: #1a73e8;
+        color: #fff;
+        margin-left: auto;
+        border-bottom-right-radius: 4px;
+      }
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(4px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
       /* -- Log panel ------------------------------------------------------ */
+      .log-card .card-header {
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .log-card .card-header::after {
+        content: "\25bc";
+        font-size: 10px;
+        color: #bdc1c6;
+        transition: transform 0.15s;
+      }
+      .log-card.collapsed .card-header::after {
+        transform: rotate(-90deg);
+      }
+      .log-card.collapsed #log { display: none; }
       #log {
         padding: 12px 20px 16px;
-        height: 420px;
+        height: 240px;
         overflow-y: auto;
         white-space: pre-wrap;
         font-family: "Roboto Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-        font-size: 12px;
+        font-size: 11px;
         line-height: 1.75;
-        color: #3c4043;
+        color: #5f6368;
+        background: #f8f9fa;
       }
       #log:empty::before {
-        content: "Logs will appear here after starting a session.";
+        content: "Technical logs will appear here.";
         color: #bdc1c6;
         font-style: italic;
       }
@@ -269,11 +329,19 @@
     <!-- Main -->
     <div class="content">
 
-      <!-- Log -->
-      <section class="card">
-        <div class="card-header">Session Log</div>
-        <div id="log"></div>
-      </section>
+      <div class="left-col">
+        <!-- Conversation -->
+        <section class="card">
+          <div class="card-header">Conversation</div>
+          <div id="conversation"></div>
+        </section>
+
+        <!-- Log (collapsible) -->
+        <section class="card log-card collapsed">
+          <div class="card-header" id="logToggle">Debug Log</div>
+          <div id="log"></div>
+        </section>
+      </div>
 
       <!-- Questions -->
       <aside class="card questions-card">
@@ -340,10 +408,17 @@
       const statusText = document.getElementById("statusText");
       const remoteAudio = document.getElementById("remoteAudio");
       const logEl = document.getElementById("log");
+      const convoEl = document.getElementById("conversation");
+      const logToggle = document.getElementById("logToggle");
 
       let pc = null;
       let dc = null;
       let localStream = null;
+
+      // Toggle debug log
+      logToggle.addEventListener("click", () => {
+        logToggle.closest(".log-card").classList.toggle("collapsed");
+      });
 
       function log(message) {
         const ts = new Date().toLocaleTimeString();
@@ -351,10 +426,20 @@
         logEl.scrollTop = logEl.scrollHeight;
       }
 
+      function addMessage(text, role) {
+        const div = document.createElement("div");
+        div.className = role === "user" ? "msg msg-user" : "msg msg-ai";
+        div.textContent = text;
+        convoEl.appendChild(div);
+        convoEl.scrollTop = convoEl.scrollHeight;
+      }
+
       function setStatus(text, state) {
         statusText.textContent = text;
         statusDot.className = "status-dot " + state;
       }
+
+
 
       function safeJsonParse(value) {
         if (typeof value !== "string") return value;
@@ -393,7 +478,7 @@
         log(`Tool call rag_query: ${query}`);
         const ragResult = await callRag(query);
         const relevantChunks = (ragResult.chunks || []).filter(
-          (c) => c.score != null && c.score >= 0.45
+          (c) => c.score != null && c.score >= 0.3
         );
         log(`RAG: ${ragResult.chunks?.length || 0} chunks, ${relevantChunks.length} relevant`);
 
@@ -406,6 +491,11 @@
           relevantChunks.length > 0
             ? JSON.stringify({ chunks: relevantChunks })
             : JSON.stringify({ answer: NO_MATCH_MSG });
+
+        if (!dc || dc.readyState !== "open") {
+          log("Data channel closed before tool result could be sent");
+          return;
+        }
 
         dc.send(
           JSON.stringify({
@@ -456,10 +546,11 @@
                 instructions,
                 turn_detection: {
                   type: "server_vad",
-                  threshold: 0.5,
+                  threshold: 0.6,
                   prefix_padding_ms: 300,
                   silence_duration_ms: 800,
                 },
+                input_audio_transcription: { model: "whisper-1" },
                 tool_choice: "auto",
                 tools: [
                   {
@@ -482,15 +573,6 @@
             })
           );
 
-          dc.send(
-            JSON.stringify({
-              type: "response.create",
-              response: {
-                modalities: ["audio", "text"],
-                instructions: "Greet the user in a cheerful, bright tone in English as the SportyBet customer service assistant. Do not mention any assistant name. Welcome them to SportyBet with energy and warmth. Then let them know you're here to help and invite them to ask any questions.",
-              },
-            })
-          );
         };
 
         dc.onmessage = async (event) => {
@@ -500,6 +582,20 @@
           if (data.type === "error") {
             log(`Realtime error: ${JSON.stringify(data.error || data)}`);
             return;
+          }
+
+          // Wait for session config to be confirmed before sending greeting
+          if (data.type === "session.updated") {
+            log("Session config confirmed, sending greeting");
+            dc.send(
+              JSON.stringify({
+                type: "response.create",
+                response: {
+                  modalities: ["audio", "text"],
+                  instructions: "Greet the user in a cheerful, bright tone in English as the SportyBet customer service assistant. Do not mention any assistant name. Welcome them to SportyBet with energy and warmth. Then let them know you're here to help and invite them to ask any questions.",
+                },
+              })
+            );
           }
 
           if (data.type === "response.output_item.done") {
@@ -514,8 +610,20 @@
             }
           }
 
-          if (data.type === "response.text.done") {
-            log(`AI(text): ${data.text}`);
+          if (data.type === "conversation.item.input_audio_transcription.completed") {
+            const userText = data.transcript;
+            if (userText) {
+              log(`User: ${userText}`);
+              addMessage(userText, "user");
+            }
+          }
+
+          if (data.type === "response.text.done" || data.type === "response.audio_transcript.done") {
+            const transcript = data.text || data.transcript;
+            if (transcript) {
+              log(`AI: ${transcript}`);
+              addMessage(transcript, "ai");
+            }
           }
 
           if (data.type === "response.created") {
@@ -529,6 +637,7 @@
 
         dc.onclose = () => {
           log("Data channel closed");
+
         };
       }
 
@@ -536,6 +645,7 @@
         startBtn.disabled = true;
         stopBtn.disabled = false;
         setStatus("Connecting...", "connecting");
+        convoEl.innerHTML = "";
 
         try {
           const tokenResp = await fetch("/api/realtime-token", {
@@ -566,7 +676,9 @@
               "getUserMedia not available. Please access this page via https:// or http://localhost:8787"
             );
           }
-          localStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+          localStream = await navigator.mediaDevices.getUserMedia({
+            audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true },
+          });
           for (const track of localStream.getTracks()) {
             pc.addTrack(track, localStream);
           }
@@ -597,6 +709,7 @@
         } catch (err) {
           log(`Start failed: ${err.message || err}`);
           setStatus("Error", "error");
+
           await stopSession();
         }
       }
