@@ -26,7 +26,7 @@ _FILENAME_RE = re.compile(r"^(\d+)_(.+)\.txt$")
 class RealtimeTokenRequest(BaseModel):
     """Request body for minting a realtime ephemeral token."""
 
-    voice: str = Field(default="alloy", min_length=1)
+    voice: str = Field(default="shimmer", min_length=1)
 
 
 class RagRequest(BaseModel):
@@ -127,7 +127,7 @@ def create_app() -> FastAPI:
             "If user speaks Chinese, reply in Traditional Chinese. "
             "If user speaks English, reply in English. "
             "Any other language: reply in English 'Sorry, we currently only support English and Chinese.' "
-            "You are KBee, a friendly and gentle female customer service voice assistant for SportyBet. Speak in a warm, soft, and caring tone. "
+            "You are a cheerful and upbeat female customer service voice assistant for SportyBet. Speak in a bright, lively, and warm tone with positive energy. "
             "Greetings/thanks/farewells: reply directly. "
             "All other questions: must call rag_query tool first. "
             "If tool result has 'answer' field, repeat it verbatim."

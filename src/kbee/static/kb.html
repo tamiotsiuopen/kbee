@@ -3,15 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>KBee Knowledge Base</title>
+    <title>Voice AI POC - Knowledge Base</title>
     <style>
       *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
       body {
         font-family: "Google Sans", ui-sans-serif, system-ui, -apple-system, Segoe UI,
           Roboto, Helvetica, Arial, sans-serif;
-        background: #f8f9fa;
-        color: #202124;
+        background: #f0f4f9;
+        color: #1f1f1f;
         line-height: 1.5;
         -webkit-font-smoothing: antialiased;
       }
@@ -19,8 +19,8 @@
       /* -- Nav bar -------------------------------------------------------- */
       .nav {
         background: #fff;
-        border-bottom: 1px solid #e8eaed;
-        padding: 0 1.5rem;
+        border-bottom: 1px solid #e0e0e0;
+        padding: 0 2rem;
         height: 56px;
         display: flex;
         align-items: center;
@@ -32,52 +32,64 @@
       .nav-brand {
         display: flex;
         align-items: center;
-        gap: 0.5rem;
+        gap: 10px;
         font-size: 18px;
         font-weight: 500;
-        color: #202124;
+        color: #1f1f1f;
         text-decoration: none;
       }
       .nav-brand .logo {
-        width: 28px;
-        height: 28px;
-        background: #1a73e8;
-        border-radius: 8px;
+        width: 32px;
+        height: 32px;
+        background: linear-gradient(135deg, #4285f4, #1a73e8);
+        border-radius: 10px;
         display: flex;
         align-items: center;
         justify-content: center;
         color: #fff;
         font-weight: 700;
+        font-size: 15px;
+      }
+      .nav-page {
         font-size: 14px;
+        color: #5f6368;
+        font-weight: 400;
+        margin-left: 2px;
       }
       .nav-link {
-        font-size: 14px;
+        font-size: 13px;
         color: #1a73e8;
         text-decoration: none;
         font-weight: 500;
-        padding: 6px 12px;
-        border-radius: 6px;
-        transition: background 0.15s;
+        padding: 8px 16px;
+        border-radius: 8px;
+        border: 1px solid #d2e3fc;
+        transition: all 0.15s;
       }
-      .nav-link:hover { background: #e8f0fe; }
+      .nav-link:hover { background: #e8f0fe; border-color: #a8c7fa; }
 
       /* -- Layout --------------------------------------------------------- */
       .container {
         max-width: 960px;
         margin: 0 auto;
-        padding: 1.5rem;
+        padding: 1.5rem 1.5rem 3rem;
       }
 
       /* -- Search bar ----------------------------------------------------- */
       .search-bar {
         background: #fff;
-        border: 1px solid #e8eaed;
+        border: 1px solid #e0e0e0;
         border-radius: 12px;
         padding: 12px 16px;
         display: flex;
         align-items: center;
         gap: 12px;
-        margin-bottom: 1rem;
+        margin-bottom: 1.25rem;
+        transition: border-color 0.15s, box-shadow 0.15s;
+      }
+      .search-bar:focus-within {
+        border-color: #1a73e8;
+        box-shadow: 0 0 0 3px rgba(26,115,232,0.12);
       }
       .search-icon {
         color: #9aa0a6;
@@ -89,7 +101,7 @@
         outline: none;
         font-size: 14px;
         font-family: inherit;
-        color: #202124;
+        color: #1f1f1f;
         background: transparent;
       }
       #searchInput::placeholder { color: #9aa0a6; }
@@ -104,20 +116,20 @@
 
       details {
         background: #fff;
-        border: 1px solid #e8eaed;
-        border-radius: 10px;
+        border: 1px solid #e0e0e0;
+        border-radius: 12px;
         overflow: hidden;
         transition: box-shadow 0.15s;
       }
       details[open] {
-        box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        box-shadow: 0 1px 4px rgba(0,0,0,0.08);
       }
       summary {
         padding: 12px 16px;
         cursor: pointer;
         font-size: 14px;
         font-weight: 500;
-        color: #202124;
+        color: #1f1f1f;
         user-select: none;
         list-style: none;
         display: flex;
@@ -171,11 +183,12 @@
 
     <!-- Nav -->
     <nav class="nav">
-      <a class="nav-brand" href="/kb">
+      <a class="nav-brand" href="/">
         <span class="logo">K</span>
-        Knowledge Base
+        Voice AI POC
+        <span class="nav-page">/ Knowledge Base</span>
       </a>
-      <a class="nav-link" href="/">&larr; Voice Assistant</a>
+      <a class="nav-link" href="/">Voice Assistant</a>
     </nav>
 
     <!-- Content -->
@@ -256,7 +269,7 @@
           render(allArticles);
         })
         .catch(err => {
-          articlesEl.innerHTML = `<div class="no-results">Error loading articles: ${err.message}</div>`;
+          articlesEl.innerHTML = `<div class="no-results">Error: ${escapeHtml(err.message)}</div>`;
         });
     </script>
   </body>

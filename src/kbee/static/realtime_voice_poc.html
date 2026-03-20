@@ -3,15 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>KBee Voice Assistant</title>
+    <title>Voice AI POC</title>
     <style>
       *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
       body {
         font-family: "Google Sans", ui-sans-serif, system-ui, -apple-system, Segoe UI,
           Roboto, Helvetica, Arial, sans-serif;
-        background: #f8f9fa;
-        color: #202124;
+        background: #f0f4f9;
+        color: #1f1f1f;
         line-height: 1.5;
         -webkit-font-smoothing: antialiased;
       }
@@ -19,125 +19,116 @@
       /* -- Nav bar -------------------------------------------------------- */
       .nav {
         background: #fff;
-        border-bottom: 1px solid #e8eaed;
-        padding: 0 1.5rem;
+        border-bottom: 1px solid #e0e0e0;
+        padding: 0 2rem;
         height: 56px;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        position: sticky;
-        top: 0;
-        z-index: 10;
       }
       .nav-brand {
         display: flex;
         align-items: center;
-        gap: 0.5rem;
+        gap: 10px;
         font-size: 18px;
         font-weight: 500;
-        color: #202124;
+        color: #1f1f1f;
         text-decoration: none;
       }
       .nav-brand .logo {
-        width: 28px;
-        height: 28px;
-        background: #1a73e8;
-        border-radius: 8px;
+        width: 32px;
+        height: 32px;
+        background: linear-gradient(135deg, #4285f4, #1a73e8);
+        border-radius: 10px;
         display: flex;
         align-items: center;
         justify-content: center;
         color: #fff;
         font-weight: 700;
-        font-size: 14px;
+        font-size: 15px;
       }
       .nav-link {
-        font-size: 14px;
+        font-size: 13px;
         color: #1a73e8;
         text-decoration: none;
         font-weight: 500;
-        padding: 6px 12px;
-        border-radius: 6px;
-        transition: background 0.15s;
+        padding: 8px 16px;
+        border-radius: 8px;
+        border: 1px solid #d2e3fc;
+        transition: all 0.15s;
       }
-      .nav-link:hover { background: #e8f0fe; }
+      .nav-link:hover { background: #e8f0fe; border-color: #a8c7fa; }
 
-      /* -- Layout --------------------------------------------------------- */
-      .container {
-        max-width: 960px;
-        margin: 0 auto;
-        padding: 1.5rem 1.5rem 3rem;
-        display: grid;
-        grid-template-columns: 1fr 320px;
-        gap: 1.25rem;
+      /* -- Hero section --------------------------------------------------- */
+      .hero {
+        max-width: 720px;
+        margin: 2.5rem auto 0;
+        text-align: center;
+        padding: 0 1.5rem;
       }
-      @media (max-width: 740px) {
-        .container { grid-template-columns: 1fr; }
+      .hero h1 {
+        font-size: 28px;
+        font-weight: 400;
+        color: #1f1f1f;
+        margin-bottom: 6px;
       }
-
-      /* -- Cards ---------------------------------------------------------- */
-      .card {
-        background: #fff;
-        border-radius: 12px;
-        border: 1px solid #e8eaed;
-        overflow: hidden;
-      }
-      .card-header {
-        padding: 16px 20px 12px;
+      .hero p {
         font-size: 14px;
-        font-weight: 500;
         color: #5f6368;
-        letter-spacing: 0.02em;
+        margin-bottom: 1.5rem;
       }
 
-      /* -- Voice control card --------------------------------------------- */
-      .voice-card { grid-column: 1 / -1; }
-      .voice-body {
-        padding: 0 20px 20px;
+      /* -- Session control ------------------------------------------------ */
+      .session-controls {
         display: flex;
         align-items: center;
+        justify-content: center;
         gap: 12px;
+        margin-bottom: 2rem;
       }
       .btn {
-        height: 40px;
-        padding: 0 24px;
+        height: 44px;
+        padding: 0 28px;
         border: none;
-        border-radius: 20px;
+        border-radius: 22px;
         font-size: 14px;
         font-weight: 500;
+        font-family: inherit;
         cursor: pointer;
-        transition: box-shadow 0.15s, opacity 0.15s;
+        transition: all 0.15s;
         display: inline-flex;
         align-items: center;
-        gap: 6px;
+        gap: 8px;
       }
       .btn:active { transform: scale(0.97); }
       .btn-primary {
         background: #1a73e8;
         color: #fff;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.12);
       }
-      .btn-primary:hover { box-shadow: 0 1px 3px rgba(26,115,232,0.4); }
+      .btn-primary:hover { background: #1765cc; box-shadow: 0 2px 6px rgba(26,115,232,0.35); }
       .btn-primary:disabled {
-        background: #e8eaed;
-        color: #9aa0a6;
+        background: #c2c9d6;
+        color: #fff;
         cursor: default;
         box-shadow: none;
         transform: none;
       }
       .btn-stop {
         background: #fff;
-        color: #d93025;
+        color: #c5221f;
         border: 1px solid #dadce0;
       }
-      .btn-stop:hover { background: #fce8e6; border-color: #d93025; }
+      .btn-stop:hover { background: #fce8e6; border-color: #f28b82; }
       .btn-stop:disabled {
-        color: #9aa0a6;
+        color: #bdc1c6;
         border-color: #e8eaed;
         background: #fff;
         cursor: default;
         transform: none;
       }
 
-      /* -- Status indicator ----------------------------------------------- */
+      /* -- Status --------------------------------------------------------- */
       .status {
         display: inline-flex;
         align-items: center;
@@ -145,85 +136,109 @@
         font-size: 13px;
         font-weight: 500;
         color: #5f6368;
-        margin-left: 4px;
       }
       .status-dot {
         width: 8px;
         height: 8px;
         border-radius: 50%;
-        background: #9aa0a6;
+        background: #bdc1c6;
         flex-shrink: 0;
       }
-      .status-dot.idle { background: #9aa0a6; }
+      .status-dot.idle { background: #bdc1c6; }
       .status-dot.connecting {
         background: #fbbc04;
         animation: pulse 1s ease-in-out infinite;
       }
       .status-dot.connected { background: #34a853; }
-      .status-dot.error { background: #d93025; }
+      .status-dot.error { background: #ea4335; }
       @keyframes pulse {
         0%, 100% { opacity: 1; }
-        50% { opacity: 0.4; }
+        50% { opacity: 0.35; }
+      }
+
+      /* -- Main content area ---------------------------------------------- */
+      .content {
+        max-width: 1060px;
+        margin: 0 auto;
+        padding: 0 1.5rem 3rem;
+        display: grid;
+        grid-template-columns: 1fr 340px;
+        gap: 1.25rem;
+        align-items: start;
+      }
+
+      /* -- Cards ---------------------------------------------------------- */
+      .card {
+        background: #fff;
+        border-radius: 16px;
+        border: 1px solid #e0e0e0;
+        overflow: hidden;
+      }
+      .card-header {
+        padding: 14px 20px 10px;
+        font-size: 11px;
+        font-weight: 600;
+        color: #9aa0a6;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
       }
 
       /* -- Log panel ------------------------------------------------------ */
-      .log-panel {
-        grid-column: 1;
-      }
       #log {
-        padding: 14px 16px;
-        height: 380px;
+        padding: 12px 20px 16px;
+        height: 420px;
         overflow-y: auto;
         white-space: pre-wrap;
         font-family: "Roboto Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
         font-size: 12px;
-        line-height: 1.7;
+        line-height: 1.75;
         color: #3c4043;
-        background: #f8f9fa;
       }
       #log:empty::before {
-        content: "Session logs will appear here once you start a session.";
-        color: #9aa0a6;
+        content: "Logs will appear here after starting a session.";
+        color: #bdc1c6;
         font-style: italic;
       }
 
-      /* -- Test questions card -------------------------------------------- */
-      .questions-card {
-        align-self: start;
+      /* -- Questions card ------------------------------------------------- */
+      .questions-card .card-header {
+        border-bottom: 1px solid #f1f3f4;
       }
-      .questions-list {
-        list-style: none;
-        padding: 0 16px 16px;
+      .q-group {
+        padding: 10px 16px 6px;
       }
-      .questions-list li {
-        padding: 8px 10px;
-        font-size: 13px;
-        line-height: 1.55;
-        border-radius: 8px;
-        cursor: default;
-        transition: background 0.12s;
-      }
-      .questions-list li:hover { background: #f1f3f4; }
-      .questions-list li + li { margin-top: 2px; }
-      .tag {
-        display: inline-block;
+      .q-group-label {
         font-size: 10px;
         font-weight: 600;
         text-transform: uppercase;
-        letter-spacing: 0.04em;
-        color: #fff;
-        border-radius: 4px;
-        padding: 2px 6px;
-        margin-right: 6px;
-        vertical-align: middle;
-        position: relative;
-        top: -1px;
+        letter-spacing: 0.06em;
+        padding: 0 6px;
+        margin-bottom: 4px;
       }
-      .tag-account  { background: #188038; }
-      .tag-payments { background: #7b1fa2; }
-      .tag-betting  { background: #1967d2; }
-      .tag-games    { background: #e37400; }
-      .tag-promo    { background: #c5221f; }
+      .q-group-label.account  { color: #188038; }
+      .q-group-label.payments { color: #7b1fa2; }
+      .q-group-label.betting  { color: #1967d2; }
+      .q-group-label.games    { color: #e37400; }
+      .q-group-label.promo    { color: #c5221f; }
+
+      .q-list {
+        list-style: none;
+      }
+      .q-list li {
+        padding: 6px 8px;
+        font-size: 13px;
+        line-height: 1.45;
+        border-radius: 8px;
+        color: #3c4043;
+        cursor: default;
+        transition: background 0.1s;
+      }
+      .q-list li:hover { background: #f1f3f4; }
+      .q-divider {
+        height: 1px;
+        background: #f1f3f4;
+        margin: 2px 12px;
+      }
     </style>
   </head>
   <body>
@@ -232,55 +247,88 @@
     <nav class="nav">
       <a class="nav-brand" href="/">
         <span class="logo">K</span>
-        KBee Voice Assistant
+        Voice AI POC
       </a>
-      <a class="nav-link" href="/kb">Knowledge Base &rarr;</a>
+      <a class="nav-link" href="/kb">Knowledge Base</a>
     </nav>
 
-    <!-- Content -->
-    <div class="container">
+    <!-- Hero -->
+    <div class="hero">
+      <h1>Voice Assistant</h1>
+      <p>AI-powered voice support that answers customer questions in real time using the SportyBet knowledge base.</p>
+      <div class="session-controls">
+        <button class="btn btn-primary" id="startBtn">Start Session</button>
+        <button class="btn btn-stop" id="stopBtn" disabled>Stop</button>
+        <span class="status">
+          <span class="status-dot idle" id="statusDot"></span>
+          <span id="statusText">Idle</span>
+        </span>
+      </div>
+    </div>
 
-      <!-- Voice controls -->
-      <section class="card voice-card">
-        <div class="card-header">Voice Session</div>
-        <div class="voice-body">
-          <button class="btn btn-primary" id="startBtn">Start Session</button>
-          <button class="btn btn-stop" id="stopBtn" disabled>Stop</button>
-          <span class="status">
-            <span class="status-dot idle" id="statusDot"></span>
-            <span id="statusText">Idle</span>
-          </span>
-        </div>
-      </section>
+    <!-- Main -->
+    <div class="content">
 
       <!-- Log -->
-      <section class="card log-panel">
+      <section class="card">
         <div class="card-header">Session Log</div>
         <div id="log"></div>
       </section>
 
-      <!-- Test questions -->
+      <!-- Questions -->
       <aside class="card questions-card">
         <div class="card-header">Sample Questions</div>
-        <ul class="questions-list">
-          <li><span class="tag tag-account">Account</span>How do I enable two-factor authentication?</li>
-          <li><span class="tag tag-account">Account</span>How can I reactivate my account after self-exclusion?</li>
-          <li><span class="tag tag-account">Account</span>How do I upload documents to SportyBet support?</li>
-          <li><span class="tag tag-payments">Payments</span>Why was my withdrawal declined?</li>
-          <li><span class="tag tag-payments">Payments</span>How do I add or delete a bank account?</li>
-          <li><span class="tag tag-payments">Payments</span>What is a rollback?</li>
-          <li><span class="tag tag-betting">Betting</span>What is 2UP and how does early payout work?</li>
-          <li><span class="tag tag-betting">Betting</span>How do Flexi Bets work?</li>
-          <li><span class="tag tag-betting">Betting</span>What is Remix Bet?</li>
-          <li><span class="tag tag-betting">Betting</span>What are FlashWin and FlashSave?</li>
-          <li><span class="tag tag-games">Games</span>How do I play Mines?</li>
-          <li><span class="tag tag-games">Games</span>What is VIP Mode in Sporty Hero?</li>
-          <li><span class="tag tag-games">Games</span>Explain the rules of Sporty Soccer.</li>
-          <li><span class="tag tag-promo">Promo</span>How do Daily Streaks work?</li>
-          <li><span class="tag tag-promo">Promo</span>How can I use my reward bonus?</li>
-        </ul>
-      </aside>
 
+        <div class="q-group">
+          <div class="q-group-label account">Account</div>
+          <ul class="q-list">
+            <li>How to enable 2FA?</li>
+            <li>How to reactivate after self-exclusion?</li>
+            <li>How to upload documents to support?</li>
+          </ul>
+        </div>
+        <div class="q-divider"></div>
+
+        <div class="q-group">
+          <div class="q-group-label payments">Payments</div>
+          <ul class="q-list">
+            <li>Why was my withdrawal declined?</li>
+            <li>How to add or delete a bank account?</li>
+            <li>What is a rollback?</li>
+          </ul>
+        </div>
+        <div class="q-divider"></div>
+
+        <div class="q-group">
+          <div class="q-group-label betting">Betting</div>
+          <ul class="q-list">
+            <li>What is 2UP early payout?</li>
+            <li>How do Flexi Bets work?</li>
+            <li>What is Remix Bet?</li>
+            <li>What are FlashWin and FlashSave?</li>
+          </ul>
+        </div>
+        <div class="q-divider"></div>
+
+        <div class="q-group">
+          <div class="q-group-label games">Games</div>
+          <ul class="q-list">
+            <li>How to play Mines?</li>
+            <li>What is VIP Mode in Sporty Hero?</li>
+            <li>Rules of Sporty Soccer?</li>
+          </ul>
+        </div>
+        <div class="q-divider"></div>
+
+        <div class="q-group" style="padding-bottom: 12px;">
+          <div class="q-group-label promo">Promo</div>
+          <ul class="q-list">
+            <li>How do Daily Streaks work?</li>
+            <li>How to use my reward bonus?</li>
+          </ul>
+        </div>
+
+      </aside>
     </div>
 
     <audio id="remoteAudio" autoplay></audio>
@@ -345,7 +393,7 @@
         log(`Tool call rag_query: ${query}`);
         const ragResult = await callRag(query);
         const relevantChunks = (ragResult.chunks || []).filter(
-          (c) => c.score != null && c.score >= 0.30
+          (c) => c.score != null && c.score >= 0.45
         );
         log(`RAG: ${ragResult.chunks?.length || 0} chunks, ${relevantChunks.length} relevant`);
 
@@ -392,11 +440,12 @@
             "- If the user speaks Chinese (Mandarin/Traditional Chinese/Simplified Chinese), reply in Traditional Chinese (\u7e41\u9ad4\u4e2d\u6587).",
             "- If the user speaks English, reply in English.",
             "- If the user speaks any other language, reply in English with: 'Sorry, we currently only support English and Chinese.'",
-            "You are KBee, a friendly and gentle female customer service voice assistant for SportyBet. Speak in a warm, soft, and caring tone.",
+            "You are a cheerful and upbeat female customer service voice assistant for SportyBet. Speak in a bright, lively, and warm tone with positive energy.",
             "Response rules:",
             "1. Greetings (hello, hi, \u4f60\u597d), thanks (thank you, \u8b1d\u8b1d), and farewells (bye, \u518d\u898b) can be answered directly with a short reply. No tool call needed.",
             "2. For ALL other questions, you MUST call the rag_query tool first. Never answer on your own.",
-            "3. If the tool result contains an 'answer' field (meaning no relevant data was found), say ONLY: in Chinese '\u4e0d\u597d\u610f\u601d\u6211\u76ee\u524d\u9084\u4e0d\u719f\u6089\u9019\u985e\u554f\u984c\uff0c\u8acb\u554f\u9700\u8981\u5e6b\u60a8\u8f49\u63a5\u5c08\u4eba\u5354\u52a9\u55ce\uff1f' or in English 'Sorry, I'm not familiar with this topic. Would you like me to transfer you to a specialist?' Do NOT say anything else. Do NOT try to help or give suggestions.",
+            "3. If the tool result contains a 'chunks' field, answer based on the chunk content only.",
+            "4. If the tool result contains an 'answer' field (meaning no relevant data was found), say ONLY: in Chinese '\u4e0d\u597d\u610f\u601d\u6211\u76ee\u524d\u9084\u4e0d\u719f\u6089\u9019\u985e\u554f\u984c\uff0c\u8acb\u554f\u9700\u8981\u5e6b\u60a8\u8f49\u63a5\u5c08\u4eba\u5354\u52a9\u55ce\uff1f' or in English 'Sorry, I'm not familiar with this topic. Would you like me to transfer you to a specialist?' Do NOT say anything else. Do NOT try to help or give suggestions.",
             "Keep replies concise, friendly, and accurate.",
           ].join(" ");
 
@@ -416,7 +465,7 @@
                   {
                     type: "function",
                     name: "rag_query",
-                    description: "Query KBee knowledge base for factual customer-service answers.",
+                    description: "Query the knowledge base for factual customer-service answers.",
                     parameters: {
                       type: "object",
                       properties: {
@@ -433,18 +482,15 @@
             })
           );
 
-          // Wait for session.update to be processed before greeting
-          setTimeout(() => {
-            dc.send(
-              JSON.stringify({
-                type: "response.create",
-                response: {
-                  modalities: ["audio", "text"],
-                  instructions: "Greet the user warmly and gently in English as KBee, the SportyBet customer service assistant. Welcome them to SportyBet with a friendly, soft-spoken tone. Then let them know you're here to help and invite them to ask any questions.",
-                },
-              })
-            );
-          }, 1000);
+          dc.send(
+            JSON.stringify({
+              type: "response.create",
+              response: {
+                modalities: ["audio", "text"],
+                instructions: "Greet the user in a cheerful, bright tone in English as the SportyBet customer service assistant. Do not mention any assistant name. Welcome them to SportyBet with energy and warmth. Then let them know you're here to help and invite them to ask any questions.",
+              },
+            })
+          );
         };
 
         dc.onmessage = async (event) => {
