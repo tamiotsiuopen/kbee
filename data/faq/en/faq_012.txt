@@ -1,5 +1,0 @@
-Category: Technical Issues
-
-Q: The game froze during play. What happens to my bet?
-
-A: If a game disconnects or freezes mid-round, your bet and game state are saved on our servers. Simply log back in and reopen the game to resume from where you left off. If the round completed during the disconnection, any winnings will be automatically credited to your account. You can verify this in My Account > Transaction History. If you believe there is a discrepancy, please contact support with the game name, date, and approximate time of the issue.

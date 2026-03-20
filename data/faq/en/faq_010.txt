@@ -1,5 +1,0 @@
-Category: Payment Methods
-
-Q: What payment methods do you accept?
-
-A: We accept a wide range of payment methods: Visa, Mastercard, Maestro, Skrill, Neteller, PayPal, Paysafecard, bank transfer, Apple Pay, Google Pay, and selected cryptocurrencies (Bitcoin, Ethereum, USDT). Available methods may vary by region. All transactions are secured with 256-bit SSL encryption. There are no fees charged by us for deposits, though your payment provider may apply their own charges.

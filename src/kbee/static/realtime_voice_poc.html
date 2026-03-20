@@ -1,67 +1,296 @@
 <!doctype html>
-<html lang="zh-Hant">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>KBee Realtime Voice POC</title>
+    <title>KBee Voice Assistant</title>
     <style>
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
       body {
-        font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica,
-          Arial, sans-serif;
-        max-width: 860px;
-        margin: 2rem auto;
-        padding: 0 1rem;
+        font-family: "Google Sans", ui-sans-serif, system-ui, -apple-system, Segoe UI,
+          Roboto, Helvetica, Arial, sans-serif;
+        background: #f8f9fa;
+        color: #202124;
         line-height: 1.5;
+        -webkit-font-smoothing: antialiased;
       }
-      button {
-        margin-right: 0.5rem;
-        padding: 0.5rem 0.9rem;
+
+      /* -- Nav bar -------------------------------------------------------- */
+      .nav {
+        background: #fff;
+        border-bottom: 1px solid #e8eaed;
+        padding: 0 1.5rem;
+        height: 56px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+      }
+      .nav-brand {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 18px;
+        font-weight: 500;
+        color: #202124;
+        text-decoration: none;
+      }
+      .nav-brand .logo {
+        width: 28px;
+        height: 28px;
+        background: #1a73e8;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-weight: 700;
+        font-size: 14px;
+      }
+      .nav-link {
+        font-size: 14px;
+        color: #1a73e8;
+        text-decoration: none;
+        font-weight: 500;
+        padding: 6px 12px;
+        border-radius: 6px;
+        transition: background 0.15s;
+      }
+      .nav-link:hover { background: #e8f0fe; }
+
+      /* -- Layout --------------------------------------------------------- */
+      .container {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 1.5rem 1.5rem 3rem;
+        display: grid;
+        grid-template-columns: 1fr 320px;
+        gap: 1.25rem;
+      }
+      @media (max-width: 740px) {
+        .container { grid-template-columns: 1fr; }
+      }
+
+      /* -- Cards ---------------------------------------------------------- */
+      .card {
+        background: #fff;
+        border-radius: 12px;
+        border: 1px solid #e8eaed;
+        overflow: hidden;
+      }
+      .card-header {
+        padding: 16px 20px 12px;
+        font-size: 14px;
+        font-weight: 500;
+        color: #5f6368;
+        letter-spacing: 0.02em;
+      }
+
+      /* -- Voice control card --------------------------------------------- */
+      .voice-card { grid-column: 1 / -1; }
+      .voice-body {
+        padding: 0 20px 20px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .btn {
+        height: 40px;
+        padding: 0 24px;
+        border: none;
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: 500;
         cursor: pointer;
+        transition: box-shadow 0.15s, opacity 0.15s;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .btn:active { transform: scale(0.97); }
+      .btn-primary {
+        background: #1a73e8;
+        color: #fff;
+      }
+      .btn-primary:hover { box-shadow: 0 1px 3px rgba(26,115,232,0.4); }
+      .btn-primary:disabled {
+        background: #e8eaed;
+        color: #9aa0a6;
+        cursor: default;
+        box-shadow: none;
+        transform: none;
+      }
+      .btn-stop {
+        background: #fff;
+        color: #d93025;
+        border: 1px solid #dadce0;
+      }
+      .btn-stop:hover { background: #fce8e6; border-color: #d93025; }
+      .btn-stop:disabled {
+        color: #9aa0a6;
+        border-color: #e8eaed;
+        background: #fff;
+        cursor: default;
+        transform: none;
+      }
+
+      /* -- Status indicator ----------------------------------------------- */
+      .status {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 13px;
+        font-weight: 500;
+        color: #5f6368;
+        margin-left: 4px;
+      }
+      .status-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #9aa0a6;
+        flex-shrink: 0;
+      }
+      .status-dot.idle { background: #9aa0a6; }
+      .status-dot.connecting {
+        background: #fbbc04;
+        animation: pulse 1s ease-in-out infinite;
+      }
+      .status-dot.connected { background: #34a853; }
+      .status-dot.error { background: #d93025; }
+      @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.4; }
+      }
+
+      /* -- Log panel ------------------------------------------------------ */
+      .log-panel {
+        grid-column: 1;
       }
       #log {
-        margin-top: 1rem;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        padding: 0.8rem;
-        height: 360px;
+        padding: 14px 16px;
+        height: 380px;
         overflow-y: auto;
         white-space: pre-wrap;
-        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-family: "Roboto Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 12px;
+        line-height: 1.7;
+        color: #3c4043;
+        background: #f8f9fa;
+      }
+      #log:empty::before {
+        content: "Session logs will appear here once you start a session.";
+        color: #9aa0a6;
+        font-style: italic;
+      }
+
+      /* -- Test questions card -------------------------------------------- */
+      .questions-card {
+        align-self: start;
+      }
+      .questions-list {
+        list-style: none;
+        padding: 0 16px 16px;
+      }
+      .questions-list li {
+        padding: 8px 10px;
         font-size: 13px;
+        line-height: 1.55;
+        border-radius: 8px;
+        cursor: default;
+        transition: background 0.12s;
       }
-      .row {
-        margin: 0.4rem 0;
-      }
-      #status {
+      .questions-list li:hover { background: #f1f3f4; }
+      .questions-list li + li { margin-top: 2px; }
+      .tag {
+        display: inline-block;
+        font-size: 10px;
         font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: #fff;
+        border-radius: 4px;
+        padding: 2px 6px;
+        margin-right: 6px;
+        vertical-align: middle;
+        position: relative;
+        top: -1px;
       }
+      .tag-account  { background: #188038; }
+      .tag-payments { background: #7b1fa2; }
+      .tag-betting  { background: #1967d2; }
+      .tag-games    { background: #e37400; }
+      .tag-promo    { background: #c5221f; }
     </style>
   </head>
   <body>
-    <h1>KBee Realtime Voice POC</h1>
-    <p>使用麥克風和 AI 客服對話，AI 可透過 RAG 查詢 KB。</p>
-    <div class="row">
-      <button id="startBtn">Start Session</button>
-      <button id="stopBtn" disabled>Stop Session</button>
-      <span id="status">Idle</span>
+
+    <!-- Nav -->
+    <nav class="nav">
+      <a class="nav-brand" href="/">
+        <span class="logo">K</span>
+        KBee Voice Assistant
+      </a>
+      <a class="nav-link" href="/kb">Knowledge Base &rarr;</a>
+    </nav>
+
+    <!-- Content -->
+    <div class="container">
+
+      <!-- Voice controls -->
+      <section class="card voice-card">
+        <div class="card-header">Voice Session</div>
+        <div class="voice-body">
+          <button class="btn btn-primary" id="startBtn">Start Session</button>
+          <button class="btn btn-stop" id="stopBtn" disabled>Stop</button>
+          <span class="status">
+            <span class="status-dot idle" id="statusDot"></span>
+            <span id="statusText">Idle</span>
+          </span>
+        </div>
+      </section>
+
+      <!-- Log -->
+      <section class="card log-panel">
+        <div class="card-header">Session Log</div>
+        <div id="log"></div>
+      </section>
+
+      <!-- Test questions -->
+      <aside class="card questions-card">
+        <div class="card-header">Sample Questions</div>
+        <ul class="questions-list">
+          <li><span class="tag tag-account">Account</span>How do I enable two-factor authentication?</li>
+          <li><span class="tag tag-account">Account</span>How can I reactivate my account after self-exclusion?</li>
+          <li><span class="tag tag-account">Account</span>How do I upload documents to SportyBet support?</li>
+          <li><span class="tag tag-payments">Payments</span>Why was my withdrawal declined?</li>
+          <li><span class="tag tag-payments">Payments</span>How do I add or delete a bank account?</li>
+          <li><span class="tag tag-payments">Payments</span>What is a rollback?</li>
+          <li><span class="tag tag-betting">Betting</span>What is 2UP and how does early payout work?</li>
+          <li><span class="tag tag-betting">Betting</span>How do Flexi Bets work?</li>
+          <li><span class="tag tag-betting">Betting</span>What is Remix Bet?</li>
+          <li><span class="tag tag-betting">Betting</span>What are FlashWin and FlashSave?</li>
+          <li><span class="tag tag-games">Games</span>How do I play Mines?</li>
+          <li><span class="tag tag-games">Games</span>What is VIP Mode in Sporty Hero?</li>
+          <li><span class="tag tag-games">Games</span>Explain the rules of Sporty Soccer.</li>
+          <li><span class="tag tag-promo">Promo</span>How do Daily Streaks work?</li>
+          <li><span class="tag tag-promo">Promo</span>How can I use my reward bonus?</li>
+        </ul>
+      </aside>
+
     </div>
-    <div class="row">
-      <label for="voiceSelect">Voice:</label>
-      <select id="voiceSelect">
-        <option value="alloy" selected>alloy</option>
-        <option value="verse">verse</option>
-        <option value="sage">sage</option>
-      </select>
-    </div>
+
     <audio id="remoteAudio" autoplay></audio>
-    <div id="log"></div>
 
     <script>
       const startBtn = document.getElementById("startBtn");
       const stopBtn = document.getElementById("stopBtn");
-      const statusEl = document.getElementById("status");
+      const statusDot = document.getElementById("statusDot");
+      const statusText = document.getElementById("statusText");
       const remoteAudio = document.getElementById("remoteAudio");
-      const voiceSelect = document.getElementById("voiceSelect");
       const logEl = document.getElementById("log");
 
       let pc = null;
@@ -74,8 +303,9 @@
         logEl.scrollTop = logEl.scrollHeight;
       }
 
-      function setStatus(text) {
-        statusEl.textContent = text;
+      function setStatus(text, state) {
+        statusText.textContent = text;
+        statusDot.className = "status-dot " + state;
       }
 
       function safeJsonParse(value) {
@@ -121,7 +351,7 @@
 
         const NO_MATCH_MSG =
           "NO_MATCH: Knowledge base has no relevant information. " +
-          "Chinese user: 不好意思我目前還不熟悉這類問題，請問需要幫您轉接專人協助嗎？ " +
+          "Chinese user: \u4e0d\u597d\u610f\u601d\u6211\u76ee\u524d\u9084\u4e0d\u719f\u6089\u9019\u985e\u554f\u984c\uff0c\u8acb\u554f\u9700\u8981\u5e6b\u60a8\u8f49\u63a5\u5c08\u4eba\u5354\u52a9\u55ce\uff1f " +
           "English user: Sorry, I'm not familiar with this topic. Would you like me to transfer you to a specialist?";
 
         const output =
@@ -159,14 +389,14 @@
           const instructions = [
             "LANGUAGE RULE:",
             "- Default language is English.",
-            "- If the user speaks Chinese (Mandarin/Traditional Chinese/Simplified Chinese), reply in Traditional Chinese (繁體中文).",
+            "- If the user speaks Chinese (Mandarin/Traditional Chinese/Simplified Chinese), reply in Traditional Chinese (\u7e41\u9ad4\u4e2d\u6587).",
             "- If the user speaks English, reply in English.",
             "- If the user speaks any other language, reply in English with: 'Sorry, we currently only support English and Chinese.'",
-            "You are KBee, a customer service voice assistant.",
+            "You are KBee, a friendly and gentle female customer service voice assistant for SportyBet. Speak in a warm, soft, and caring tone.",
             "Response rules:",
-            "1. Greetings (hello, hi, 你好), thanks (thank you, 謝謝), and farewells (bye, 再見) can be answered directly with a short reply. No tool call needed.",
+            "1. Greetings (hello, hi, \u4f60\u597d), thanks (thank you, \u8b1d\u8b1d), and farewells (bye, \u518d\u898b) can be answered directly with a short reply. No tool call needed.",
             "2. For ALL other questions, you MUST call the rag_query tool first. Never answer on your own.",
-            "3. If the tool result contains an 'answer' field (meaning no relevant data was found), say ONLY: in Chinese '不好意思我目前還不熟悉這類問題，請問需要幫您轉接專人協助嗎？' or in English 'Sorry, I'm not familiar with this topic. Would you like me to transfer you to a specialist?' Do NOT say anything else. Do NOT try to help or give suggestions.",
+            "3. If the tool result contains an 'answer' field (meaning no relevant data was found), say ONLY: in Chinese '\u4e0d\u597d\u610f\u601d\u6211\u76ee\u524d\u9084\u4e0d\u719f\u6089\u9019\u985e\u554f\u984c\uff0c\u8acb\u554f\u9700\u8981\u5e6b\u60a8\u8f49\u63a5\u5c08\u4eba\u5354\u52a9\u55ce\uff1f' or in English 'Sorry, I'm not familiar with this topic. Would you like me to transfer you to a specialist?' Do NOT say anything else. Do NOT try to help or give suggestions.",
             "Keep replies concise, friendly, and accurate.",
           ].join(" ");
 
@@ -210,7 +440,7 @@
                 type: "response.create",
                 response: {
                   modalities: ["audio", "text"],
-                  instructions: "Briefly introduce yourself in English as KBee customer service assistant and ask the user to start asking questions.",
+                  instructions: "Greet the user warmly and gently in English as KBee, the SportyBet customer service assistant. Welcome them to SportyBet with a friendly, soft-spoken tone. Then let them know you're here to help and invite them to ask any questions.",
                 },
               })
             );
@@ -259,13 +489,13 @@
       async function startSession() {
         startBtn.disabled = true;
         stopBtn.disabled = false;
-        setStatus("Connecting...");
+        setStatus("Connecting...", "connecting");
 
         try {
           const tokenResp = await fetch("/api/realtime-token", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ voice: voiceSelect.value }),
+            body: JSON.stringify({}),
           });
 
           if (!tokenResp.ok) {
@@ -316,11 +546,11 @@
           const answerSdp = await sdpResp.text();
           await pc.setRemoteDescription({ type: "answer", sdp: answerSdp });
 
-          setStatus("Connected");
+          setStatus("Connected", "connected");
           log("Realtime session started");
         } catch (err) {
           log(`Start failed: ${err.message || err}`);
-          setStatus("Error");
+          setStatus("Error", "error");
           await stopSession();
         }
       }
@@ -345,7 +575,7 @@
           localStream = null;
         }
 
-        setStatus("Idle");
+        setStatus("Idle", "idle");
         log("Session stopped");
       }
 

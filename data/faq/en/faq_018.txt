@@ -1,5 +1,0 @@
-Category: Restricted Regions
-
-Q: Which countries are restricted from using the platform?
-
-A: Due to regulatory requirements, players from the following regions cannot register or play: United States, France, Australia, Spain, Italy, Turkey, and any jurisdiction where online gambling is prohibited by law. We use geolocation technology to enforce these restrictions. If you travel to a restricted region, you will be unable to access your account until you return to a permitted location. VPN usage is strictly prohibited and may result in account closure and forfeiture of funds.

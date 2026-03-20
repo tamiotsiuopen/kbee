@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import re
 from pathlib import Path
 from typing import Any
 from urllib.parse import urlparse
@@ -15,7 +16,11 @@ from kbee.config import settings
 from kbee.query import retrieve_chunks
 
 REALTIME_SESSION_URL = "https://api.openai.com/v1/realtime/sessions"
-POC_HTML_PATH = Path(__file__).with_name("static") / "realtime_voice_poc.html"
+STATIC_DIR = Path(__file__).with_name("static")
+POC_HTML_PATH = STATIC_DIR / "realtime_voice_poc.html"
+KB_HTML_PATH = STATIC_DIR / "kb.html"
+
+_FILENAME_RE = re.compile(r"^(\d+)_(.+)\.txt$")
 
 
 class RealtimeTokenRequest(BaseModel):
@@ -83,6 +88,31 @@ def create_app() -> FastAPI:
             raise HTTPException(status_code=500, detail="POC HTML not found")
         return FileResponse(POC_HTML_PATH)
 
+    @app.get("/kb")
+    async def kb_page() -> FileResponse:
+        if not KB_HTML_PATH.exists():
+            raise HTTPException(status_code=500, detail="KB HTML not found")
+        return FileResponse(KB_HTML_PATH)
+
+    @app.get("/api/kb-articles")
+    async def kb_articles() -> list[dict[str, Any]]:
+        data_path = settings.data_path
+        if not data_path.exists():
+            raise HTTPException(status_code=500, detail="Data directory not found")
+
+        articles: list[dict[str, Any]] = []
+        for txt_file in sorted(data_path.rglob("*.txt")):
+            match = _FILENAME_RE.match(txt_file.name)
+            if not match:
+                continue
+            article_id = int(match.group(1))
+            title = match.group(2).replace("_", " ")
+            content = txt_file.read_text(encoding="utf-8", errors="replace")
+            articles.append({"id": article_id, "title": title, "content": content})
+
+        articles.sort(key=lambda a: a["id"])
+        return articles
+
     @app.get("/health")
     async def health() -> dict[str, str]:
         return {"status": "ok"}
@@ -97,7 +127,7 @@ def create_app() -> FastAPI:
             "If user speaks Chinese, reply in Traditional Chinese. "
             "If user speaks English, reply in English. "
             "Any other language: reply in English 'Sorry, we currently only support English and Chinese.' "
-            "You are KBee customer service voice assistant. "
+            "You are KBee, a friendly and gentle female customer service voice assistant for SportyBet. Speak in a warm, soft, and caring tone. "
             "Greetings/thanks/farewells: reply directly. "
             "All other questions: must call rag_query tool first. "
             "If tool result has 'answer' field, repeat it verbatim."

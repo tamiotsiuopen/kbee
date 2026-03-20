@@ -1,5 +1,0 @@
-Category: Account Verification
-
-Q: How do I verify my account?
-
-A: To verify your account, go to Settings > Verification and upload a valid government-issued photo ID (passport, driver's license, or national ID card). You will also need to provide a proof of address dated within the last 3 months, such as a utility bill or bank statement. Verification is usually completed within 24-48 hours. You must verify your account before making your first withdrawal.

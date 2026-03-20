@@ -1,5 +1,0 @@
-Category: Cryptocurrency
-
-Q: Can I deposit and withdraw using cryptocurrency?
-
-A: Yes, we accept Bitcoin (BTC), Ethereum (ETH), and Tether (USDT). Crypto deposits are processed after 1 network confirmation, usually within 10-30 minutes. Withdrawals are processed within 24 hours and sent to the wallet address you specify. There are no fees for crypto transactions on our end. Minimum crypto deposit is equivalent to $20 and minimum withdrawal is $50. Please double-check your wallet address before confirming, as crypto transactions cannot be reversed.
