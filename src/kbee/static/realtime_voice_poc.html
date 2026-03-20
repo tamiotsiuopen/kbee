@@ -299,9 +299,73 @@
         background: #f1f3f4;
         margin: 2px 12px;
       }
+
+      /* -- Password gate -------------------------------------------------- */
+      .gate-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        background: #f0f4f9;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .gate-overlay.hidden { display: none; }
+      .gate-box {
+        background: #fff;
+        border-radius: 16px;
+        border: 1px solid #e0e0e0;
+        padding: 40px 36px;
+        text-align: center;
+        max-width: 380px;
+        width: 90%;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      }
+      .gate-box h2 {
+        font-size: 20px;
+        font-weight: 500;
+        color: #1f1f1f;
+        margin-bottom: 6px;
+      }
+      .gate-box p {
+        font-size: 13px;
+        color: #5f6368;
+        margin-bottom: 20px;
+      }
+      .gate-input {
+        width: 100%;
+        height: 44px;
+        border: 1px solid #dadce0;
+        border-radius: 10px;
+        padding: 0 14px;
+        font-size: 14px;
+        font-family: inherit;
+        outline: none;
+        transition: border-color 0.15s;
+        margin-bottom: 12px;
+      }
+      .gate-input:focus { border-color: #1a73e8; }
+      .gate-input.error { border-color: #ea4335; }
+      .gate-error {
+        font-size: 12px;
+        color: #ea4335;
+        margin-bottom: 12px;
+        display: none;
+      }
     </style>
   </head>
   <body>
+
+    <!-- Password gate -->
+    <div class="gate-overlay" id="gateOverlay">
+      <div class="gate-box">
+        <h2>Voice AI POC</h2>
+        <p>Enter the access code to continue.</p>
+        <input class="gate-input" id="gateInput" type="password" placeholder="Access code" autofocus />
+        <div class="gate-error" id="gateError">Incorrect code. Please try again.</div>
+        <button class="btn btn-primary" id="gateBtn" style="width:100%">Enter</button>
+      </div>
+    </div>
 
     <!-- Nav -->
     <nav class="nav">
@@ -402,6 +466,37 @@
     <audio id="remoteAudio" autoplay></audio>
 
     <script>
+      // -- Password gate --------------------------------------------------
+      (function() {
+        const overlay = document.getElementById("gateOverlay");
+        const input = document.getElementById("gateInput");
+        const btn = document.getElementById("gateBtn");
+        const error = document.getElementById("gateError");
+        const CODE = "voiceaipoc";
+
+        if (sessionStorage.getItem("poc_auth") === "1") {
+          overlay.classList.add("hidden");
+        }
+
+        function attempt() {
+          if (input.value === CODE) {
+            sessionStorage.setItem("poc_auth", "1");
+            overlay.classList.add("hidden");
+          } else {
+            input.classList.add("error");
+            error.style.display = "block";
+            input.value = "";
+            input.focus();
+          }
+        }
+
+        btn.addEventListener("click", attempt);
+        input.addEventListener("keydown", (e) => {
+          if (e.key === "Enter") attempt();
+          else { input.classList.remove("error"); error.style.display = "none"; }
+        });
+      })();
+
       const startBtn = document.getElementById("startBtn");
       const stopBtn = document.getElementById("stopBtn");
       const statusDot = document.getElementById("statusDot");
@@ -484,8 +579,7 @@
 
         const NO_MATCH_MSG =
           "NO_MATCH: Knowledge base has no relevant information. " +
-          "Chinese user: \u4e0d\u597d\u610f\u601d\u6211\u76ee\u524d\u9084\u4e0d\u719f\u6089\u9019\u985e\u554f\u984c\uff0c\u8acb\u554f\u9700\u8981\u5e6b\u60a8\u8f49\u63a5\u5c08\u4eba\u5354\u52a9\u55ce\uff1f " +
-          "English user: Sorry, I'm not familiar with this topic. Would you like me to transfer you to a specialist?";
+          "Sorry, I'm not familiar with this topic. Would you like me to transfer you to a specialist?";
 
         const output =
           relevantChunks.length > 0
@@ -526,16 +620,15 @@
 
           const instructions = [
             "LANGUAGE RULE:",
-            "- Default language is English.",
-            "- If the user speaks Chinese (Mandarin/Traditional Chinese/Simplified Chinese), reply in Traditional Chinese (\u7e41\u9ad4\u4e2d\u6587).",
-            "- If the user speaks English, reply in English.",
-            "- If the user speaks any other language, reply in English with: 'Sorry, we currently only support English and Chinese.'",
+            "- You MUST always reply in English.",
+            "- If the user speaks any language other than English, politely reply in English: 'I'm sorry, we currently only support English. Could you please ask your question in English? I'd love to help!'",
+            "- Do NOT reply in any other language under any circumstances.",
             "You are a cheerful and upbeat female customer service voice assistant for SportyBet. Speak in a bright, lively, and warm tone with positive energy.",
             "Response rules:",
-            "1. Greetings (hello, hi, \u4f60\u597d), thanks (thank you, \u8b1d\u8b1d), and farewells (bye, \u518d\u898b) can be answered directly with a short reply. No tool call needed.",
+            "1. Greetings (hello, hi), thanks (thank you), and farewells (bye) can be answered directly with a short reply. No tool call needed.",
             "2. For ALL other questions, you MUST call the rag_query tool first. Never answer on your own.",
             "3. If the tool result contains a 'chunks' field, answer based on the chunk content only.",
-            "4. If the tool result contains an 'answer' field (meaning no relevant data was found), say ONLY: in Chinese '\u4e0d\u597d\u610f\u601d\u6211\u76ee\u524d\u9084\u4e0d\u719f\u6089\u9019\u985e\u554f\u984c\uff0c\u8acb\u554f\u9700\u8981\u5e6b\u60a8\u8f49\u63a5\u5c08\u4eba\u5354\u52a9\u55ce\uff1f' or in English 'Sorry, I'm not familiar with this topic. Would you like me to transfer you to a specialist?' Do NOT say anything else. Do NOT try to help or give suggestions.",
+            "4. If the tool result contains an 'answer' field (meaning no relevant data was found), say ONLY: 'Sorry, I'm not familiar with this topic. Would you like me to transfer you to a specialist?' Do NOT say anything else. Do NOT try to help or give suggestions.",
             "Keep replies concise, friendly, and accurate.",
           ].join(" ");
 
