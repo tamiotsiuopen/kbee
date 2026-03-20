@@ -1,0 +1,26 @@
+{
+  "$schema": "https://schema.zeabur.app/template.json",
+  "build": {
+    "type": "dockerfile",
+    "dockerfile": "Dockerfile"
+  },
+  "ports": [8787],
+  "env": {
+    "OPENAI_API_KEY": {
+      "description": "OpenAI API key for embeddings and realtime voice",
+      "required": true
+    },
+    "REALTIME_MODEL": {
+      "description": "OpenAI Realtime model name",
+      "default": "gpt-4o-realtime-preview-2024-12-17"
+    },
+    "DATA_DIR": {
+      "description": "Knowledge base data directory",
+      "default": "./data/sporty_stage_ng"
+    },
+    "BASE_URL": {
+      "description": "Server base URL",
+      "default": "http://0.0.0.0:8787"
+    }
+  }
+}

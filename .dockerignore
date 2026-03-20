@@ -1,0 +1,13 @@
+.git
+.venv
+.env
+.claude
+__pycache__
+*.pyc
+storage
+eval
+tests
+docs
+scripts
+*.md
+.DS_Store
