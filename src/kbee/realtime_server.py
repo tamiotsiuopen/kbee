@@ -122,13 +122,11 @@ def create_app() -> FastAPI:
         if not settings.openai_api_key:
             raise HTTPException(status_code=500, detail="OPENAI_API_KEY is required")
 
-        # NOTE: The client sends a detailed session.update with full
-        # instructions immediately after the data channel opens.  Keep
-        # the server-side instructions minimal to avoid conflicting
-        # directives (the client update overwrites these anyway).
+        # Client overrides these via session.update after connect.
         instructions = (
             "You are a cheerful customer service voice assistant for SportyBet. "
-            "Reply in English only. Follow tool-use instructions from the session update."
+            "Reply in English only. Follow tool-use instructions from the "
+            "session update."
         )
         session = await _create_realtime_session(
             api_key=settings.openai_api_key,
