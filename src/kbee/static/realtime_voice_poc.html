@@ -509,6 +509,11 @@
       let pc = null;
       let dc = null;
       let localStream = null;
+      let audioPlayingStarted = false;
+
+      // Track conversation item IDs for history pruning
+      const conversationItemIds = [];
+      const MAX_CONVERSATION_ITEMS = 10;
 
       // Toggle debug log
       logToggle.addEventListener("click", () => {
@@ -542,6 +547,20 @@
           return JSON.parse(value);
         } catch {
           return value;
+        }
+      }
+
+      function pruneConversationHistory() {
+        // Keep only the most recent items to prevent context bloat.
+        // Older items (especially RAG tool results) accumulate fast.
+        while (conversationItemIds.length > MAX_CONVERSATION_ITEMS) {
+          const oldId = conversationItemIds.shift();
+          if (dc && dc.readyState === "open") {
+            dc.send(JSON.stringify({
+              type: "conversation.item.delete",
+              item_id: oldId,
+            }));
+          }
         }
       }
 
@@ -636,6 +655,7 @@
             JSON.stringify({
               type: "session.update",
               session: {
+                voice: "shimmer",
                 instructions,
                 turn_detection: {
                   type: "server_vad",
@@ -691,6 +711,23 @@
             );
           }
 
+          // Cancel in-progress response when user starts speaking (barge-in)
+          if (data.type === "input_audio_buffer.speech_started") {
+            if (dc && dc.readyState === "open") {
+              dc.send(JSON.stringify({ type: "response.cancel" }));
+              log("Barge-in: cancelled in-progress response");
+            }
+          }
+
+          // Track conversation items for history pruning
+          if (data.type === "conversation.item.created") {
+            const itemId = data.item?.id;
+            if (itemId) {
+              conversationItemIds.push(itemId);
+              pruneConversationHistory();
+            }
+          }
+
           if (data.type === "response.output_item.done") {
             const item = data.item || {};
             if (item.type === "function_call") {
@@ -720,7 +757,12 @@
           }
 
           if (data.type === "response.created") {
-            remoteAudio.play().catch(() => {});
+            // Only call play() once — subsequent calls on an already-playing
+            // element can cause audio glitches / overlaps.
+            if (!audioPlayingStarted) {
+              remoteAudio.play().catch(() => {});
+              audioPlayingStarted = true;
+            }
           }
         };
 
@@ -762,6 +804,13 @@
           pc = new RTCPeerConnection();
           pc.ontrack = (event) => {
             remoteAudio.srcObject = event.streams[0];
+          };
+          pc.oniceconnectionstatechange = () => {
+            log(`ICE state: ${pc.iceConnectionState}`);
+            if (pc.iceConnectionState === "failed") {
+              log("ICE connection failed — stopping session");
+              stopSession();
+            }
           };
 
           if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
@@ -827,6 +876,8 @@
           localStream = null;
         }
 
+        audioPlayingStarted = false;
+        conversationItemIds.length = 0;
         setStatus("Idle", "idle");
         log("Session stopped");
       }
