@@ -510,10 +510,14 @@
       let dc = null;
       let localStream = null;
       let audioPlayingStarted = false;
+      let aiRespondingNow = false;
 
-      // Track conversation item IDs for history pruning
+      // Track conversation item IDs for history pruning.
+      // Each RAG turn creates ~4 items (user, tool_call, tool_result, ai).
+      // Keep only ~1.5 recent turns to avoid context pressure that causes
+      // audio generation stuttering / robotic artifacts.
       const conversationItemIds = [];
-      const MAX_CONVERSATION_ITEMS = 10;
+      const MAX_CONVERSATION_ITEMS = 6;
 
       // Toggle debug log
       logToggle.addEventListener("click", () => {
@@ -552,10 +556,19 @@
 
       function pruneConversationHistory() {
         // Keep only the most recent items to prevent context bloat.
-        // Older items (especially RAG tool results) accumulate fast.
+        // Older items (especially RAG tool results with 3 x 512-char
+        // chunks) accumulate fast and cause audio generation stuttering.
         while (conversationItemIds.length > MAX_CONVERSATION_ITEMS) {
           const oldId = conversationItemIds.shift();
           if (dc && dc.readyState === "open") {
+            // Truncate any audio payload first — this is the heaviest
+            // part of old AI responses and frees context immediately.
+            dc.send(JSON.stringify({
+              type: "conversation.item.truncate",
+              item_id: oldId,
+              content_index: 0,
+              audio_end_ms: 0,
+            }));
             dc.send(JSON.stringify({
               type: "conversation.item.delete",
               item_id: oldId,
@@ -591,10 +604,10 @@
 
         log(`Tool call rag_query: ${query}`);
         const ragResult = await callRag(query);
-        const relevantChunks = (ragResult.chunks || []).filter(
-          (c) => c.score != null && c.score >= 0.3
-        );
-        log(`RAG: ${ragResult.chunks?.length || 0} chunks, ${relevantChunks.length} relevant`);
+        const relevantChunks = (ragResult.chunks || [])
+          .filter((c) => c.score != null && c.score >= 0.3)
+          .slice(0, 3);  // Cap at 3 to keep context lean for audio gen
+        log(`RAG: ${ragResult.chunks?.length || 0} chunks, ${relevantChunks.length} relevant (capped at 3)`);
 
         const NO_MATCH_MSG =
           "NO_MATCH: Knowledge base has no relevant information. " +
@@ -705,26 +718,29 @@
                 type: "response.create",
                 response: {
                   modalities: ["audio", "text"],
-                  instructions: "Greet the user in a cheerful, bright tone in English as the SportyBet customer service assistant. Do not mention any assistant name. Welcome them to SportyBet with energy and warmth. Then let them know you're here to help and invite them to ask any questions.",
+                  instructions: "Say exactly this greeting: 'Hey there! I'm your cheerful SportyBet voice assistant, here to help with anything you need. How can I assist you today?'",
                 },
               })
             );
           }
 
-          // Cancel in-progress response when user starts speaking (barge-in)
+          // Cancel in-progress response only on genuine user barge-in.
+          // Guard: skip if AI is not actively responding (avoids VAD
+          // false positives from echo/ambient noise).
           if (data.type === "input_audio_buffer.speech_started") {
-            if (dc && dc.readyState === "open") {
+            if (aiRespondingNow && dc && dc.readyState === "open") {
               dc.send(JSON.stringify({ type: "response.cancel" }));
               log("Barge-in: cancelled in-progress response");
             }
           }
 
-          // Track conversation items for history pruning
+          // Track conversation items for history pruning (collect only,
+          // actual pruning deferred to response.done so we never delete
+          // items while the model is mid-generation).
           if (data.type === "conversation.item.created") {
             const itemId = data.item?.id;
             if (itemId) {
               conversationItemIds.push(itemId);
-              pruneConversationHistory();
             }
           }
 
@@ -757,12 +773,20 @@
           }
 
           if (data.type === "response.created") {
+            aiRespondingNow = true;
             // Only call play() once — subsequent calls on an already-playing
             // element can cause audio glitches / overlaps.
             if (!audioPlayingStarted) {
               remoteAudio.play().catch(() => {});
               audioPlayingStarted = true;
             }
+          }
+
+          // Prune old conversation items only after a response fully
+          // completes — never mid-generation, which disrupts audio.
+          if (data.type === "response.done") {
+            aiRespondingNow = false;
+            pruneConversationHistory();
           }
         };
 
@@ -877,6 +901,7 @@
         }
 
         audioPlayingStarted = false;
+        aiRespondingNow = false;
         conversationItemIds.length = 0;
         setStatus("Idle", "idle");
         log("Session stopped");
